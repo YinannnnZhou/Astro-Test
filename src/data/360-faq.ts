@@ -1,0 +1,22 @@
+export const faqs = [
+  {
+    question: 'What is 360-degree feedback?',
+    answer:
+      '360-degree feedback is a structured development process that gathers observations about an individual from multiple perspectives, such as self, managers, peers, direct reports and other relevant stakeholders. It helps people compare how they see themselves with how others experience their workplace behaviours, turning shared patterns and perception gaps into focused development priorities.',
+  },
+  {
+    question: 'How does 360-degree feedback work?',
+    answer:
+      'An organisation selects the competencies and questionnaire, defines feedback groups, anonymity rules and the programme workflow, and invites relevant internal or external reviewers. aTalent tracks completion and aggregates eligible responses into a report that highlights strengths, development areas and differences between self-perception and others’ feedback.',
+  },
+  {
+    question: 'Why choose aTalent as your partner for running a 360 Feedback programme?',
+    answer:
+      'aTalent is designed for large, complex organisations that need a configurable and governed 360 Feedback programme across roles, business units and markets. The platform combines multilingual questionnaires, flexible feedback sources, workflow management, permission-based reporting, anonymity protection and AI-assisted analysis—helping HR scale the process while keeping development decisions in human hands.',
+  },
+  {
+    question: 'Can organisations customise competencies and questionnaires?',
+    answer:
+      'Yes. Organisations can configure competency categories, rating and open-text questions, scales, feedback-source visibility, source weights, development guidance and multilingual content, then reuse questionnaires for different programmes. Once a questionnaire is used in a feedback plan, later changes are managed through a copied version to protect result consistency.',
+  },
+] as const;

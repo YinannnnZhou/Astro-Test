@@ -1,0 +1,162 @@
+---
+import FAQSection from '../components/FAQSection.astro';
+import { faqs } from '../data/360-faq';
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+
+const capabilities = [
+  ['01', 'Capture holistic perspectives', 'Gather feedback from managers, peers, direct reports and other relevant stakeholders.'],
+  ['02', 'Launch programmes for any role', 'Run governed feedback cycles across roles, business units and markets.'],
+  ['03', 'Uncover patterns with AI', 'Highlight perception gaps, recurring themes and emotional signals without removing human judgement.'],
+  ['04', 'Accelerate leadership development', 'Turn multi-rater insight into focused conversations and development priorities.'],
+  ['05', 'Connect your talent ecosystem', 'Support a consistent talent experience across feedback, skills and development.'],
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="Explore aTalent 360 Feedback and clear answers to common enterprise buyer questions." />
+    <title>360 Feedback FAQ Pilot | aTalent</title>
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+  </head>
+  <body>
+    <header class="nav shell">
+      <a class="brand" href="#top" aria-label="aTalent home">a<span>Talent</span></a>
+      <nav aria-label="Primary navigation">
+        <a href="#capabilities">Products</a><a href="#ai">AI</a><a href="#stories">Solutions</a>
+      </nav>
+      <a class="button button--small" href="#contact">Schedule a Demo</a>
+    </header>
+
+    <main id="top">
+      <section class="hero shell">
+        <div>
+          <p class="eyebrow">360 Feedback for enterprise talent development</p>
+          <h1>See the whole person.<br /><em>Shape what comes next.</em></h1>
+          <p class="hero-copy">Gather multi-source feedback to reveal strengths, blind spots and development priorities. AI helps surface patterns; people turn them into meaningful growth.</p>
+          <a class="button" href="#contact">Schedule a Demo <span>↗</span></a>
+        </div>
+        <div class="orbit" aria-label="Illustration of multi-source feedback">
+          <div class="person">You</div>
+          <span class="node node--one">Manager</span><span class="node node--two">Peers</span><span class="node node--three">Team</span><span class="node node--four">Self</span>
+        </div>
+      </section>
+
+      <section class="proof shell" aria-label="Programme outcomes">
+        <div><strong>34%</strong><p>more valued and motivated through greater self-awareness</p></div>
+        <div><strong>12%</strong><p>performance improvement reported with 360 feedback</p></div>
+        <div><strong>20%</strong><p>engagement improvement associated with multi-source feedback</p></div>
+      </section>
+
+      <section class="capabilities shell" id="capabilities">
+        <div class="section-heading"><p class="eyebrow">A clearer view of growth</p><h2>Feedback that moves from measurement to meaning.</h2></div>
+        <div class="capability-list">
+          {capabilities.map(([number, title, copy]) => (
+            <article><span>{number}</span><h3>{title}</h3><p>{copy}</p><div class="visual" aria-hidden="true"></div></article>
+          ))}
+        </div>
+      </section>
+
+      <section class="ai" id="ai">
+        <div class="shell ai-grid">
+          <div><p class="eyebrow eyebrow--light">Smart 360</p><h2>AI finds the signal.<br />People decide what it means.</h2><p>Use AI-assisted analysis to identify recurring themes, perception gaps and emotional signals—then keep managers and employees at the centre of development.</p></div>
+          <div class="ai-card"><span>AI analysis</span><strong>Self ↔ Others</strong><div class="bars"><i></i><i></i><i></i><i></i></div><p>Pattern detected: strategic communication is experienced differently across feedback groups.</p></div>
+        </div>
+      </section>
+
+      <section class="stories shell" id="stories">
+        <div class="section-heading"><p class="eyebrow">Customer perspective</p><h2>Real programmes. More focused development.</h2></div>
+        <div class="story-grid">
+          <blockquote>“The configurable survey design helped us tailor the feedback process to our organisation.”<footer>Implementation team</footer></blockquote>
+          <blockquote>“AI-assisted insight helped managers move from reports to more focused coaching conversations.”<footer>Project team</footer></blockquote>
+        </div>
+      </section>
+
+      <div class="faq-wrap"><FAQSection /></div>
+
+      <section class="cta" id="contact">
+        <div class="shell"><p class="eyebrow eyebrow--light">Move insight into action</p><h2>Ready to see your organisation more clearly?</h2><p>Discover how aTalent can support a governed, multilingual 360 Feedback programme at enterprise scale.</p><a class="button button--light" href="https://www.atalent.com/contact-us">Schedule a Demo <span>↗</span></a></div>
+      </section>
+    </main>
+
+    <footer class="footer shell"><span>aTalent</span><span>FAQ pilot · not a production page</span></footer>
+  </body>
+</html>
+
+<style is:global>
+  :root { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1c1721; background: #fbfafc; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #fbfafc; }
+  a { color: inherit; text-decoration: none; }
+  .shell { width: min(1200px, calc(100% - 3rem)); margin-inline: auto; }
+  .nav { display: flex; align-items: center; justify-content: space-between; min-height: 82px; gap: 2rem; }
+  .brand { font-size: 1.55rem; font-weight: 800; letter-spacing: -0.05em; }
+  .brand span { color: #7554ff; }
+  .nav nav { display: flex; gap: 2rem; color: #5f5866; font-size: 0.92rem; }
+  .button { display: inline-flex; align-items: center; gap: 1.1rem; padding: 0.95rem 1.25rem; border-radius: 999px; color: white; background: #7554ff; font-size: 0.9rem; font-weight: 700; }
+  .button--small { padding: 0.72rem 1rem; }
+  .button--light { color: #241b33; background: white; }
+  .hero { display: grid; grid-template-columns: 1.08fr 0.92fr; align-items: center; gap: 6vw; min-height: 680px; padding-block: 5rem 7rem; }
+  .eyebrow { margin: 0 0 1rem; color: #7554ff; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase; }
+  .eyebrow--light { color: #c9baff; }
+  h1 { max-width: 780px; margin: 0; font-size: clamp(3.2rem, 6vw, 6.8rem); font-weight: 520; letter-spacing: -0.065em; line-height: 0.93; }
+  h1 em { color: #7554ff; font-family: Georgia, serif; font-weight: 400; }
+  .hero-copy { max-width: 680px; margin: 2rem 0; color: #686170; font-size: 1.13rem; line-height: 1.75; }
+  .orbit { position: relative; aspect-ratio: 1; border: 1px solid #d9d0e7; border-radius: 50%; background: radial-gradient(circle, white 0 20%, #f1edff 21% 21.5%, transparent 22%), linear-gradient(135deg, #f2edff, #fff); }
+  .orbit::before { position: absolute; inset: 16%; border: 1px dashed #b7a5e3; border-radius: 50%; content: ''; }
+  .person { position: absolute; inset: 50% auto auto 50%; display: grid; place-items: center; width: 92px; height: 92px; border-radius: 50%; color: white; background: #7554ff; font-weight: 800; transform: translate(-50%, -50%); box-shadow: 0 20px 50px rgb(75 48 160 / 28%); }
+  .node { position: absolute; padding: 0.55rem 0.75rem; border: 1px solid #ded5ea; border-radius: 999px; background: white; color: #51485a; font-size: 0.78rem; box-shadow: 0 12px 32px rgb(67 52 84 / 10%); }
+  .node--one { top: 10%; left: 42%; } .node--two { top: 43%; right: 3%; } .node--three { bottom: 12%; left: 39%; } .node--four { top: 46%; left: 2%; }
+  .proof { display: grid; grid-template-columns: repeat(3, 1fr); border-block: 1px solid #e0dbe4; }
+  .proof div { padding: 3.5rem 3rem; border-right: 1px solid #e0dbe4; } .proof div:last-child { border-right: 0; }
+  .proof strong { color: #7554ff; font-size: 3.6rem; font-weight: 520; letter-spacing: -0.06em; }
+  .proof p { max-width: 270px; margin: 0.8rem 0 0; color: #6b6471; line-height: 1.6; }
+  .capabilities, .stories { padding-block: 8rem; }
+  .section-heading { display: grid; grid-template-columns: 0.55fr 1.45fr; gap: 3rem; align-items: start; margin-bottom: 4.5rem; }
+  .section-heading h2, .ai h2, .cta h2 { max-width: 860px; margin: 0; font-size: clamp(2.6rem, 5vw, 5rem); font-weight: 520; letter-spacing: -0.055em; line-height: 1; }
+  .capability-list article { display: grid; grid-template-columns: 80px 1fr 1fr 180px; gap: 2rem; align-items: center; padding: 2rem 0; border-top: 1px solid #ddd8e3; }
+  .capability-list article:last-child { border-bottom: 1px solid #ddd8e3; }
+  .capability-list span { color: #8b8192; font-size: 0.8rem; }
+  .capability-list h3 { margin: 0; font-size: 1.35rem; }
+  .capability-list p { margin: 0; color: #6b6471; line-height: 1.65; }
+  .visual { height: 88px; border-radius: 1rem; background: linear-gradient(135deg, #eee9ff, #d9cfff); }
+  .ai { padding-block: 8rem; color: white; background: #1f1530; }
+  .ai-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 7vw; align-items: center; }
+  .ai-grid > div > p:last-child { max-width: 650px; color: #c9c0d2; line-height: 1.75; }
+  .ai-card { padding: 2rem; border: 1px solid rgb(255 255 255 / 16%); border-radius: 1.5rem; background: linear-gradient(145deg, rgb(255 255 255 / 12%), rgb(255 255 255 / 4%)); }
+  .ai-card span { color: #c9baff; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; }
+  .ai-card strong { display: block; margin-top: 1rem; font-size: 1.75rem; }
+  .bars { display: flex; align-items: end; gap: 0.6rem; height: 120px; margin: 2rem 0; }
+  .bars i { flex: 1; border-radius: 0.4rem 0.4rem 0 0; background: linear-gradient(#aa8cff, #7554ff); } .bars i:nth-child(1) { height: 42%; } .bars i:nth-child(2) { height: 72%; } .bars i:nth-child(3) { height: 55%; } .bars i:nth-child(4) { height: 90%; }
+  .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  blockquote { margin: 0; padding: 2.5rem; border: 1px solid #dfd9e4; border-radius: 1.25rem; background: white; font-size: 1.28rem; line-height: 1.65; }
+  blockquote footer { margin-top: 2rem; color: #7554ff; font-size: 0.82rem; font-weight: 750; text-transform: uppercase; letter-spacing: 0.08em; }
+  .faq-wrap { background: #f4f1f7; }
+  .cta { padding-block: 8rem; text-align: center; color: white; background: #7554ff; }
+  .cta h2 { max-width: 900px; margin-inline: auto; }
+  .cta p:not(.eyebrow) { max-width: 640px; margin: 1.5rem auto 2rem; color: #e7e0ff; line-height: 1.7; }
+  .footer { display: flex; justify-content: space-between; padding-block: 2rem; color: #77707d; font-size: 0.8rem; }
+  @media (max-width: 800px) {
+    .nav nav { display: none; }
+    .hero, .ai-grid { grid-template-columns: 1fr; }
+    .hero { padding-top: 4rem; }
+    .orbit { max-width: 480px; width: 100%; margin-inline: auto; }
+    .proof { grid-template-columns: 1fr; } .proof div { border-right: 0; border-bottom: 1px solid #e0dbe4; }
+    .section-heading { grid-template-columns: 1fr; }
+    .capability-list article { grid-template-columns: 45px 1fr; }
+    .capability-list article p, .capability-list article .visual { grid-column: 2; }
+    .story-grid { grid-template-columns: 1fr; }
+  }
+</style>

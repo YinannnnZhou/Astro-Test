@@ -2,136 +2,143 @@
 import { faqs } from '../data/360-faq';
 ---
 
-<section class="faq" aria-labelledby="faq-title">
-  <div class="faq__intro">
-    <p class="eyebrow">Frequently asked questions</p>
-    <h2 id="faq-title">360 Feedback,<br />clearly explained.</h2>
-    <p class="intro-copy">
-      Direct answers to the questions enterprise HR teams ask when planning a
-      360 Feedback programme.
-    </p>
-  </div>
+<section class="faq-pilot" aria-labelledby="faq-title">
+  <div class="faq-container">
+    <div class="faq-heading">
+      <p class="faq-label">Frequently Asked Questions</p>
+      <h2 id="faq-title">Common Questions About 360° Feedback</h2>
+      <p>
+        Clear answers for HR teams planning a secure, configurable and scalable
+        360° Feedback programme.
+      </p>
+    </div>
 
-  <div class="faq__list">
-    {faqs.map((faq, index) => (
-      <details class="faq__item" open={index === 0}>
-        <summary>
-          <span>{faq.question}</span>
-          <span class="toggle" aria-hidden="true"></span>
-        </summary>
-        <div class="answer"><p>{faq.answer}</p></div>
-      </details>
-    ))}
+    <div class="faq-list">
+      {faqs.map((faq, index) => (
+        <details class="faq-item" open={index === 0}>
+          <summary>
+            <span>{faq.question}</span>
+            <span class="faq-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-answer"><p>{faq.answer}</p></div>
+        </details>
+      ))}
+    </div>
   </div>
 </section>
 
 <style>
-  .faq {
-    display: grid;
-    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
-    gap: clamp(3rem, 7vw, 7.5rem);
-    max-width: 1200px;
+  .faq-pilot {
+    padding: 96px 0 112px;
+    background: #f7f8fb;
+    color: #1e2022;
+    font-family: Inter, sans-serif;
+  }
+
+  .faq-container {
+    width: min(1204px, calc(100% - 48px));
     margin: 0 auto;
-    padding: clamp(5rem, 9vw, 8.5rem) 1.5rem;
   }
 
-  .faq__intro {
-    position: sticky;
-    top: 2rem;
-    align-self: start;
+  .faq-heading {
+    max-width: 760px;
+    margin-bottom: 48px;
   }
 
-  .eyebrow {
-    margin: 0 0 1rem;
-    color: #7554ff;
-    font-size: 0.76rem;
-    font-weight: 750;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
+  .faq-label {
+    margin: 0 0 12px;
+    color: #69306d;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
   }
 
-  h2 {
+  .faq-heading h2 {
+    margin: 0 0 14px;
+    color: #1e2022;
+    font-size: clamp(28px, 2.4vw, 38px);
+    font-weight: 400;
+    line-height: 1.25;
+  }
+
+  .faq-heading > p:last-child {
     margin: 0;
-    color: #17131d;
-    font-size: clamp(2.4rem, 5vw, 4.6rem);
-    font-weight: 520;
-    letter-spacing: -0.055em;
-    line-height: 0.98;
+    color: #6c757d;
+    font-size: 17px;
+    line-height: 1.7;
   }
 
-  .intro-copy {
-    max-width: 29rem;
-    margin: 1.6rem 0 0;
-    color: #696373;
-    font-size: 1.04rem;
-    line-height: 1.72;
-  }
-
-  .faq__list { border-top: 1px solid #ddd8e5; }
-  .faq__item { border-bottom: 1px solid #ddd8e5; }
+  .faq-list { border-top: 1px solid #dfe3e8; }
+  .faq-item { border-bottom: 1px solid #dfe3e8; }
 
   summary {
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: 2rem;
+    gap: 24px;
     align-items: center;
-    padding: 1.7rem 0;
-    color: #292330;
+    padding: 25px 0;
+    color: #1e2022;
     cursor: pointer;
-    font-size: clamp(1.06rem, 1.5vw, 1.28rem);
-    font-weight: 620;
-    line-height: 1.42;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.55;
     list-style: none;
   }
 
   summary::-webkit-details-marker { display: none; }
+
   summary:focus-visible {
-    border-radius: 0.25rem;
-    outline: 3px solid rgb(117 84 255 / 25%);
-    outline-offset: 0.35rem;
+    border-radius: 4px;
+    outline: 3px solid rgb(105 48 109 / 22%);
+    outline-offset: 5px;
   }
 
-  .toggle {
+  .faq-toggle {
     position: relative;
-    width: 1.65rem;
-    height: 1.65rem;
-    border: 1px solid #bbb1cb;
+    width: 28px;
+    height: 28px;
+    border: 1px solid #b7a8ba;
     border-radius: 50%;
   }
 
-  .toggle::before,
-  .toggle::after {
+  .faq-toggle::before,
+  .faq-toggle::after {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 0.7rem;
+    width: 10px;
     height: 1px;
-    background: #7554ff;
+    background: #69306d;
     content: '';
     transform: translate(-50%, -50%);
   }
 
-  .toggle::after {
+  .faq-toggle::after {
     transform: translate(-50%, -50%) rotate(90deg);
     transition: transform 180ms ease;
   }
 
-  details[open] .toggle::after {
+  details[open] .faq-toggle::after {
     transform: translate(-50%, -50%) rotate(0deg);
   }
 
-  .answer { padding: 0 3.6rem 1.85rem 0; }
-  .answer p {
-    margin: 0;
-    color: #625b69;
-    font-size: 1rem;
-    line-height: 1.78;
+  .faq-answer {
+    max-width: 930px;
+    padding: 0 52px 28px 0;
   }
 
-  @media (max-width: 760px) {
-    .faq { grid-template-columns: 1fr; gap: 3.5rem; }
-    .faq__intro { position: static; }
-    summary { gap: 1rem; }
-    .answer { padding-right: 0; }
+  .faq-answer p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  @media (max-width: 600px) {
+    .faq-pilot { padding: 72px 0 80px; }
+    .faq-container { width: min(100% - 32px, 1204px); }
+    .faq-heading { margin-bottom: 36px; }
+    summary { padding: 22px 0; font-size: 17px; }
+    .faq-answer { padding-right: 0; }
   }
 </style>

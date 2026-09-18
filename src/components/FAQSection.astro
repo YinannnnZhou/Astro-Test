@@ -1,16 +1,25 @@
 ---
-import { faqs } from '../data/360-faq';
+type FAQ = {
+  question: string;
+  answer: string;
+};
+
+interface Props {
+  label: string;
+  heading: string;
+  introduction: string;
+  faqs: readonly FAQ[];
+}
+
+const { label, heading, introduction, faqs } = Astro.props;
 ---
 
 <section class="faq-pilot" aria-labelledby="faq-title">
   <div class="faq-container">
     <div class="faq-heading">
-      <p class="faq-label">Frequently Asked Questions</p>
-      <h2 id="faq-title">Common Questions About 360° Feedback</h2>
-      <p>
-        Clear answers for HR teams planning a secure, configurable and scalable
-        360° Feedback programme.
-      </p>
+      <p class="faq-label">{label}</p>
+      <h2 id="faq-title">{heading}</h2>
+      <p>{introduction}</p>
     </div>
 
     <div class="faq-list">

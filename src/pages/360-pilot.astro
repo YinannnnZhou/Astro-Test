@@ -6,6 +6,8 @@ import ProofSection from '../components/ProofSection.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import Smart360 from '../components/Smart360.astro';
 import TestimonialsSection from '../components/TestimonialsSection.astro';
+import FinalCta from '../components/FinalCta.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 import MotionRuntime from '../components/MotionRuntime.astro';
 import { createReader } from '@keystatic/core/reader';
 import keystaticConfig from '../../keystatic.config';
@@ -46,9 +48,9 @@ if (headerStartIndex < 0 || mainStartIndex < 0 || heroStartIndex < 0 || powerSta
 const beforeHeader = originalPage.slice(0, headerStartIndex);
 const mainOpen = originalPage.slice(mainStartIndex, heroStartIndex);
 const afterSmart = originalPage.slice(smartEndIndex);
-const [, afterFaq] = afterSmart.split('<!--FAQ_SLOT-->');
+const faqMarkerIndex = afterSmart.indexOf('<!--FAQ_SLOT-->');
 
-if (!afterFaq) {
+if (faqMarkerIndex < 0) {
   throw new Error('FAQ insertion point is missing from the aTalent page snapshot.');
 }
 
@@ -587,7 +589,10 @@ const faqSchema = {
       introduction={faqPage.introduction}
       faqs={faqPage.faqs}
     />
-    <Fragment set:html={afterFaq} />
+    <FinalCta heading={product360.finalHeading} description={product360.finalDescription} ctaLabel={product360.primaryCta} ctaHref="/contact" />
+    <Fragment set:html={'</main>'} />
+    <SiteFooter copyright={product360.footerCopyright} />
+    <Fragment set:html={'</div>'} />
 
     <MotionRuntime />
 

@@ -56,6 +56,13 @@ const faqSchema = {
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content="Gather multi-source feedback, identify development priorities and explore common questions about enterprise 360-degree feedback." />
     <title>360 Degree Feedback Platform for Employee Insights | aTalent</title>
+    <script is:inline>
+      (() => {
+        const saved = localStorage.getItem('themeMode');
+        const mode = saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.dataset.theme = mode;
+      })();
+    </script>
     <link rel="stylesheet" href="https://www.atalent.com/_next/static/css/d829c41e8156d33a.css" />
     <Fragment set:html={`<style>${originalStyles}</style>`} />
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
@@ -134,6 +141,86 @@ const faqSchema = {
         padding: 8px 16px;
         color: #6b7c90;
         font: 700 0.875rem/1.43 Inter, sans-serif;
+      }
+
+      .pilot-nav-menu-company,
+      .pilot-nav-menu-standard {
+        width: min(300px, calc(100vw - 32px));
+        max-width: 300px;
+        padding: 16px;
+        box-sizing: border-box;
+      }
+
+      .pilot-nav-company-group {
+        margin: 8px 0;
+        list-style: none;
+      }
+
+      .pilot-nav-company-list {
+        margin: 0;
+        padding: 0 0 0 16px;
+        list-style: none;
+      }
+
+      html[data-theme='dark'] body {
+        background: #222b45;
+        color: #eeeef0;
+      }
+
+      html[data-theme='dark'] header.css-ibyuam,
+      html[data-theme='dark'] header.css-ibyuam.pilot-nav-scrolled {
+        background: rgba(34, 43, 69, 0.96) !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22) !important;
+      }
+
+      html[data-theme='dark'] .MuiTypography-root,
+      html[data-theme='dark'] .capabilities-native,
+      html[data-theme='dark'] .capability-copy h2,
+      html[data-theme='dark'] .capability-copy p,
+      html[data-theme='dark'] .faq-pilot,
+      html[data-theme='dark'] .faq-heading h2,
+      html[data-theme='dark'] .faq-item summary {
+        color: #eeeef0 !important;
+      }
+
+      html[data-theme='dark'] .css-19101ww,
+      html[data-theme='dark'] .css-1fgqj6e,
+      html[data-theme='dark'] .capabilities-native,
+      html[data-theme='dark'] .faq-pilot {
+        background: #1a2138 !important;
+      }
+
+      html[data-theme='dark'] .MuiPaper-root,
+      html[data-theme='dark'] .pilot-nav-menu,
+      html[data-theme='dark'] .smart-card {
+        background: #2d3748 !important;
+        color: #eeeef0 !important;
+      }
+
+      html[data-theme='dark'] .pilot-nav-menu a,
+      html[data-theme='dark'] .pilot-nav-group-title {
+        color: #eeeef0;
+      }
+
+      html[data-theme='dark'] .pilot-nav-group-title,
+      html[data-theme='dark'] .faq-heading > p:last-child,
+      html[data-theme='dark'] .faq-answer p,
+      html[data-theme='dark'] .smart-aside > div > p {
+        color: #aeb0b4 !important;
+      }
+
+      html[data-theme='dark'] .smart360 {
+        background: #1a2138;
+        color: #eeeef0;
+      }
+
+      html[data-theme='dark'] .capability-media img {
+        filter: brightness(0.8);
+      }
+
+      html[data-theme='dark'] .faq-list,
+      html[data-theme='dark'] .faq-item {
+        border-color: rgba(255, 255, 255, 0.12);
       }
     
       .pilot-nav-menu a {
@@ -236,6 +323,22 @@ const faqSchema = {
 
     <script is:inline>
       (() => {
+        const themeButton = document.querySelector('button[aria-label="Dark mode toggler"]');
+        const logo = document.querySelector('header img[alt="aTalent Logo"]');
+        const applyTheme = (mode) => {
+          document.documentElement.dataset.theme = mode;
+          localStorage.setItem('themeMode', mode);
+          themeButton?.setAttribute('aria-pressed', String(mode === 'dark'));
+          themeButton?.setAttribute('title', mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+          if (logo) logo.src = mode === 'dark'
+            ? 'https://assets.atalent.com/Uploads/a_Talent_logo_white_0b77096005.svg'
+            : 'https://assets.atalent.com/Uploads/a_Talent_logo_Dark_e97b353bb7.svg';
+        };
+        applyTheme(document.documentElement.dataset.theme || 'light');
+        themeButton?.addEventListener('click', () => {
+          applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+        });
+
         const header = document.querySelector('header.css-ibyuam');
         const setHeaderState = () => {
           header?.classList.toggle('pilot-nav-scrolled', window.scrollY > 12);
@@ -266,6 +369,7 @@ const faqSchema = {
             ['Blog', '/resources/blog'],
             ['News', '/resources/news'],
             ['Security & Compliance', '/security-compliance'],
+            ['Trailblazer', 'https://trailblazer.atalent.com/'],
           ],
         };
 
@@ -318,7 +422,28 @@ const faqSchema = {
               group.appendChild(list);
               menu.appendChild(group);
             });
+          } else if (name === 'company') {
+            menu.classList.add('pilot-nav-menu-company');
+            appendLink(menu, items[0][0], items[0][1]);
+            [
+              ['Partner', items.slice(1, 5)],
+              ['Resources', items.slice(5, 7)],
+            ].forEach(([heading, groupItems]) => {
+              const group = document.createElement('li');
+              group.className = 'pilot-nav-company-group';
+              const title = document.createElement('span');
+              title.className = 'pilot-nav-group-title';
+              title.textContent = heading;
+              group.appendChild(title);
+              const list = document.createElement('ul');
+              list.className = 'pilot-nav-company-list';
+              groupItems.forEach(([label, href]) => appendLink(list, label, href));
+              group.appendChild(list);
+              menu.appendChild(group);
+            });
+            items.slice(7).forEach(([label, href]) => appendLink(menu, label, href));
           } else {
+            menu.classList.add('pilot-nav-menu-standard');
             items.forEach(([label, href]) => appendLink(menu, label, href));
           }
 

@@ -1,7 +1,7 @@
 {
-  "eyebrow": "360° Feedback for Enterprise",
-  "title": "Help people see clearly, grow deliberately.",
-  "description": "Turn feedback from managers, peers, direct reports and stakeholders into a trusted view of strengths, blind spots and the next steps that matter.",
+  "eyebrow": "",
+  "title": "Unlock Comprehensive Employee Insights: 360˚ Feedback Engineered for Modern Organizations",
+  "description": "Gather multi-source feedback to reveal performance strengths and gaps. AI-powered analysis delivers actionable insights for targeted development—all with pinpoint accuracy.",
   "primaryCta": "Schedule a Demo",
   "secondaryCta": "Explore how it works",
   "aiLabel": "AI-assisted insight",
@@ -10,5 +10,7 @@
   "finalHeading": "Build a feedback programme people can trust.",
   "finalDescription": "Configure a secure, multilingual 360° Feedback experience for the structure, culture and scale of your organisation.",
   "metaTitle": "Enterprise 360° Feedback Platform | aTalent",
-  "metaDescription": "Run configurable, multilingual 360-degree feedback programmes for large organisations, with governed workflows, secure reporting and AI-assisted analysis."
+  "metaDescription": "Run configurable, multilingual 360-degree feedback programmes for large organisations, with governed workflows, secure reporting and AI-assisted analysis.",
+  "heroImageUrl": "https://assets.atalent.com/uploads/360_1_1_c47101d3f4.png",
+  "heroImageAlt": "aTalent 360 Feedback product overview"
 }

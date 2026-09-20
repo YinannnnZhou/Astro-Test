@@ -1,0 +1,29 @@
+{
+  "aiCtaLabel": "Explore All AI Features",
+  "aiCtaHref": "https://www.atalent.com/ai",
+  "heading": "Insights: Real Stories, Real Results",
+  "description": "Hear from our internal experts on how the 360° Feedback is driving transformative results for our clients.",
+  "testimonials": [
+    {
+      "quote": "aTalent's 360° Feedback module has been instrumental in enhancing our employee engagement and leadership skills. The AI-driven insights have helped us make data-driven decisions to improve performance.",
+      "name": "Harris",
+      "role": "Project Manager",
+      "avatarUrl": "https://assets.atalent.com/uploads/11_2f6323de9a.png",
+      "avatarAlt": "Harris, Project Manager"
+    },
+    {
+      "quote": "The customizable survey design and flexible participation features have allowed us to tailor the feedback process to our unique organizational needs.",
+      "name": "May",
+      "role": "Implementation Specialist",
+      "avatarUrl": "https://assets.atalent.com/uploads/4_48ea387fdd.png",
+      "avatarAlt": "May, Implementation Specialist"
+    },
+    {
+      "quote": "The intuitive design saved HR hours, while the AI-powered insights helped managers deliver targeted coaching. Employee development plans are now data-driven, not guesswork.",
+      "name": "Bruce Koh",
+      "role": "Project Manager",
+      "avatarUrl": "https://assets.atalent.com/uploads/8_a968e521bc.png",
+      "avatarAlt": "Bruce Koh, Project Manager"
+    }
+  ]
+}

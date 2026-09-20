@@ -401,6 +401,9 @@ const faqSchema = {
 
       .pilot-language-holder {
         position: relative;
+        display: inline-flex;
+        align-items: center;
+        width: max-content;
       }
 
       .pilot-language-menu {
@@ -728,9 +731,12 @@ const faqSchema = {
         });
 
         const languageTrigger = document.querySelector('[aria-describedby="language-menu"]');
-        const languageHolder = languageTrigger?.parentElement;
-        if (languageTrigger && languageHolder && !languageHolder.querySelector('.pilot-language-menu')) {
-          languageHolder.classList.add('pilot-language-holder');
+        if (languageTrigger && !document.querySelector('.pilot-language-menu')) {
+          const originalParent = languageTrigger.parentElement;
+          const languageHolder = document.createElement('span');
+          languageHolder.className = 'pilot-language-holder';
+          originalParent?.insertBefore(languageHolder, languageTrigger);
+          languageHolder.appendChild(languageTrigger);
           languageTrigger.setAttribute('aria-haspopup', 'menu');
           languageTrigger.setAttribute('aria-expanded', 'false');
 

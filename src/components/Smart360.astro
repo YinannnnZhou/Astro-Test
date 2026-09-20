@@ -6,7 +6,7 @@ interface Props {
 const { title, intro, featureList, slides } = Astro.props;
 ---
 
-<section class="smart360" data-aos="fade-up" aria-labelledby="smart360-title">
+<section class="smart360" data-aos="fade-up" aria-labelledby="smart360-title" data-analytics-section="smart-360">
   <div class="smart-grid">
     <div class="smart-slider" data-smart-slider>
       <div class="smart-viewport" aria-live="polite">
@@ -15,7 +15,7 @@ const { title, intro, featureList, slides } = Astro.props;
             <img src={slide.imageUrl} alt={slide.imageAlt} loading="lazy" />
             <div class="smart-dots" aria-label="Smart 360 slides">
               {slides.map((_, dotIndex) => (
-                <button type="button" data-dot={dotIndex} class:list={{ active: dotIndex === index }} aria-label={`Show slide ${dotIndex + 1}`}></button>
+                <button type="button" data-dot={dotIndex} class:list={{ active: dotIndex === index }} aria-label={`Show slide ${dotIndex + 1}`} data-analytics-action="select" data-analytics-component="smart-360-carousel" data-analytics-label={`Slide ${dotIndex + 1}`}></button>
               ))}
             </div>
             <div class="slide-copy"><h3>{slide.title}</h3><p>{slide.description}</p></div>

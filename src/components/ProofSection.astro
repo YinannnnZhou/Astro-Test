@@ -4,11 +4,11 @@ interface Props { heading: string; description: string; ctaLabel: string; ctaHre
 const { heading, description, ctaLabel, ctaHref, stats } = Astro.props;
 ---
 
-<section class="proof-native" aria-labelledby="proof-heading">
+<section class="proof-native" aria-labelledby="proof-heading" data-analytics-section="proof">
   <div class="proof-intro" data-aos="fade-up" data-aos-delay="50" data-aos-duration="500">
     <h2 id="proof-heading">{heading}</h2>
     <p>{description}</p>
-    <a class="proof-cta" href={ctaHref}>{ctaLabel}</a>
+    <a class="proof-cta" href={ctaHref} data-analytics-action="click" data-analytics-component="proof-cta" data-analytics-label={ctaLabel}>{ctaLabel}</a>
   </div>
   <div class="proof-band">
     <div class="proof-grid">

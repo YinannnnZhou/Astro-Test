@@ -2,6 +2,7 @@
 import FAQSection from '../components/FAQSection.astro';
 import CapabilitiesSection from '../components/CapabilitiesSection.astro';
 import Hero360 from '../components/Hero360.astro';
+import ProofSection from '../components/ProofSection.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import Smart360 from '../components/Smart360.astro';
 import MotionRuntime from '../components/MotionRuntime.astro';
@@ -42,7 +43,6 @@ if (headerStartIndex < 0 || mainStartIndex < 0 || heroStartIndex < 0 || powerSta
 
 const beforeHeader = originalPage.slice(0, headerStartIndex);
 const mainOpen = originalPage.slice(mainStartIndex, heroStartIndex);
-const betweenHeroAndCapabilities = originalPage.slice(powerStartIndex, capabilityStartIndex);
 const afterSmart = originalPage.slice(smartEndIndex);
 const [betweenSmartAndFaq, afterFaq] = afterSmart.split('<!--FAQ_SLOT-->');
 
@@ -575,7 +575,7 @@ const faqSchema = {
     <SiteHeader />
     <Fragment set:html={mainOpen} />
     <Hero360 title={product360.title} description={product360.description} imageUrl={product360.heroImageUrl} imageAlt={product360.heroImageAlt} />
-    <Fragment set:html={betweenHeroAndCapabilities} />
+    <ProofSection heading={product360.proofHeading} description={product360.proofDescription} ctaLabel={product360.proofCtaLabel} ctaHref="/contact" stats={product360.proofStats} />
     <CapabilitiesSection features={capabilitiesPage.features} />
     <Smart360 title={smart360.title} intro={smart360.intro} featureList={smart360.featureList} slides={smart360.slides} />
     <Fragment set:html={betweenSmartAndFaq} />

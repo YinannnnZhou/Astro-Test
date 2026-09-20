@@ -1,0 +1,44 @@
+---
+interface Stat { value: string; description: string; }
+interface Props { heading: string; description: string; ctaLabel: string; ctaHref: string; stats: Stat[]; }
+const { heading, description, ctaLabel, ctaHref, stats } = Astro.props;
+---
+
+<section class="proof-native" aria-labelledby="proof-heading">
+  <div class="proof-intro" data-motion="fade-up">
+    <h2 id="proof-heading">{heading}</h2>
+    <p>{description}</p>
+    <a class="proof-cta" href={ctaHref}>{ctaLabel}</a>
+  </div>
+  <div class="proof-band">
+    <div class="proof-grid">
+      {stats.map((stat, index) => (
+        <article class="proof-card" data-motion="fade-up" data-motion-delay={index * 100}>
+          <strong>{stat.value}</strong><p>{stat.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .proof-native { color: #1e2022; }
+  .proof-intro { width: 100%; max-width: 1236px; margin: 0 auto; padding: 48px 16px; box-sizing: border-box; text-align: center; }
+  .proof-intro h2 { margin: 0 0 7px; font: 400 2.0243rem/1.235 Inter, sans-serif; }
+  .proof-intro p { margin: 0 0 18px; font: 600 1.25rem/1.6 Inter, sans-serif; }
+  .proof-cta { display: inline-flex; min-width: 64px; align-items: center; justify-content: center; padding: 10px 22px; border-radius: 5px; color: #fff; background: #69306d; box-shadow: 0 12px 15px rgba(140,152,164,.1); text-decoration: none; font: 400 .9375rem/1.75 Inter, sans-serif; transition: background-color 250ms cubic-bezier(.4,0,.2,1), box-shadow 250ms cubic-bezier(.4,0,.2,1); }
+  .proof-cta:hover, .proof-cta:focus-visible { background: #2f6ad9; box-shadow: 0 10px 40px 10px rgba(140,152,164,.175); }
+  .proof-band { background: #f7f9fc; }
+  .proof-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; width: 100%; max-width: 1236px; margin: 0 auto; padding: 48px 16px; box-sizing: border-box; }
+  .proof-card { min-height: 100%; padding: 32px; box-sizing: border-box; border-radius: 8px; background: #fff; box-shadow: 0 3px 6px rgba(140,152,164,.25); }
+  .proof-card strong { display: block; margin: 0 0 20px; font: 500 1.4993rem/1.334 Inter, sans-serif; }
+  .proof-card p { margin: 0; color: #677788; font: 500 1rem/1.5 Inter, sans-serif; }
+  :global(html[data-theme='dark']) .proof-native { color: #eeeef0; }
+  :global(html[data-theme='dark']) .proof-band { background: #1a2138; }
+  :global(html[data-theme='dark']) .proof-card { background: #2d3748; }
+  :global(html[data-theme='dark']) .proof-card p { color: #aeb0b4; }
+  :global(html[data-theme='dark']) .proof-cta { background: #1976d2; }
+  :global(html[data-theme='dark']) .proof-cta:hover, :global(html[data-theme='dark']) .proof-cta:focus-visible { background: #0d47a1; }
+  @media (max-width: 899px) { .proof-intro, .proof-grid { max-width: 720px; padding-top: 32px; padding-bottom: 32px; } .proof-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 599px) { .proof-intro, .proof-grid { padding-top: 16px; padding-bottom: 16px; } .proof-intro h2 { font-size: 1.5625rem; } .proof-intro p { font-size: 1.125rem; } .proof-cta { width: 100%; box-sizing: border-box; } .proof-grid { grid-template-columns: 1fr; gap: 16px; } }
+</style>

@@ -40,6 +40,7 @@ export default config({
         aiDescription: fields.text({ label: 'AI section description', multiline: true }),
         finalHeading: fields.text({ label: 'Final CTA heading' }),
         finalDescription: fields.text({ label: 'Final CTA description', multiline: true }),
+        footerCopyright: fields.text({ label: 'Footer copyright', validation: { isRequired: true } }),
         metaTitle: fields.text({ label: 'SEO title' }),
         metaDescription: fields.text({ label: 'SEO description', multiline: true }),
       },

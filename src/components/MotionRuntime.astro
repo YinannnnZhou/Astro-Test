@@ -1,0 +1,54 @@
+<script is:inline>
+  (() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const candidates = new Set([
+      ...document.querySelectorAll('[data-aos]'),
+      ...document.querySelectorAll('[data-aos-delay]'),
+      ...document.querySelectorAll('.css-touz9j'),
+    ]);
+    candidates.forEach((element) => {
+      if (!element.hasAttribute('data-aos')) {
+        element.setAttribute('data-aos', element.classList.contains('css-fxw5vl') ? 'fade-right' : 'fade-up');
+      }
+      element.style.setProperty('--aos-delay', Number(element.getAttribute('data-aos-delay') || 50) + 'ms');
+      element.style.setProperty('--aos-duration', Number(element.getAttribute('data-aos-duration') || 500) + 'ms');
+    });
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      candidates.forEach((element) => element.classList.add('aos-animate'));
+      return;
+    }
+    document.documentElement.classList.add('aos-enabled');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('aos-animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' });
+    candidates.forEach((element) => observer.observe(element));
+  })();
+</script>
+
+<style is:global>
+  .aos-enabled [data-aos] {
+    opacity: 0;
+    transition-property: opacity, transform;
+    transition-duration: var(--aos-duration, 500ms);
+    transition-delay: var(--aos-delay, 50ms);
+    transition-timing-function: ease-in-out;
+    will-change: opacity, transform;
+  }
+  .aos-enabled [data-aos="fade-up"] { transform: translate3d(0, 100px, 0); }
+  .aos-enabled [data-aos="fade-right"] { transform: translate3d(-100px, 0, 0); }
+  .aos-enabled [data-aos="fade-left"] { transform: translate3d(100px, 0, 0); }
+  .aos-enabled [data-aos="fade-down"] { transform: translate3d(0, -100px, 0); }
+  .aos-enabled [data-aos].aos-animate { opacity: 1; transform: translate3d(0, 0, 0); }
+  @media (max-width: 899px) {
+    .aos-enabled .capabilities-native [data-aos="fade-right"] { transform: translate3d(0, 100px, 0); }
+    .aos-enabled .capabilities-native [data-aos="fade-right"].aos-animate { transform: translate3d(0, 0, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-aos] { opacity: 1 !important; transform: none !important; transition: none !important; }
+  }
+</style>

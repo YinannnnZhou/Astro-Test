@@ -1,0 +1,49 @@
+<script is:inline>
+  (() => {
+    window.dataLayer = window.dataLayer || [];
+    const push = (action, component, label, destination = '') => {
+      window.dataLayer.push({
+        event: 'atalent_web_interaction',
+        interaction_action: action,
+        interaction_component: component,
+        interaction_label: label,
+        interaction_destination: destination,
+        page_path: window.location.pathname,
+      });
+    };
+
+    document.addEventListener('click', (event) => {
+      const target = event.target instanceof Element ? event.target.closest('[data-analytics-action]') : null;
+      if (!(target instanceof HTMLElement)) return;
+      push(
+        target.dataset.analyticsAction || 'click',
+        target.dataset.analyticsComponent || 'unknown',
+        target.dataset.analyticsLabel || target.textContent?.trim() || '',
+        target instanceof HTMLAnchorElement ? target.href : '',
+      );
+    });
+
+    document.querySelectorAll('details[data-analytics-component="faq"]').forEach((details) => {
+      details.addEventListener('toggle', () => {
+        if (!(details instanceof HTMLDetailsElement) || !details.open) return;
+        const question = details.querySelector('summary')?.textContent?.trim() || '';
+        push('expand', 'faq', question);
+      });
+    });
+
+    if ('IntersectionObserver' in window) {
+      const seen = new Set();
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting || !(entry.target instanceof HTMLElement)) return;
+          const section = entry.target.dataset.analyticsSection;
+          if (!section || seen.has(section)) return;
+          seen.add(section);
+          push('view', 'section', section);
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.35 });
+      document.querySelectorAll('[data-analytics-section]').forEach((section) => observer.observe(section));
+    }
+  })();
+</script>

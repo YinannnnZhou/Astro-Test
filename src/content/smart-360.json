@@ -1,0 +1,19 @@
+{
+  "title": "Smart 360 --",
+  "intro": "Deepen Insights, Drive Action",
+  "featureList": "Emotion Insight,\nAI Analysis,\nPolyGlot Questionnaire Genie.",
+  "slides": [
+    {
+      "imageUrl": "https://assets.atalent.com/uploads/360_AI_1_7684d81fa4.png",
+      "imageAlt": "aTalent emotion insight interface",
+      "title": "Emotion Insight:",
+      "description": "Identify emotions in feedback to provide actionable insights."
+    },
+    {
+      "imageUrl": "https://assets.atalent.com/uploads/360_AI_2_84f6465c21.png",
+      "imageAlt": "aTalent AI analysis interface",
+      "title": "AI Analysis:",
+      "description": "Highlight gaps between self-assessment and peer feedback."
+    }
+  ]
+}

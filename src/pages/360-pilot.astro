@@ -1,6 +1,7 @@
 ---
 import FAQSection from '../components/FAQSection.astro';
 import CapabilitiesSection from '../components/CapabilitiesSection.astro';
+import MotionRuntime from '../components/MotionRuntime.astro';
 import { createReader } from '@keystatic/core/reader';
 import keystaticConfig from '../../keystatic.config';
 import originalPage from '../snapshots/atalent-360.html?raw';
@@ -179,6 +180,8 @@ const faqSchema = {
       faqs={faqPage.faqs}
     />
     <Fragment set:html={afterFaq} />
+
+    <MotionRuntime />
 
     <script is:inline>
       (() => {

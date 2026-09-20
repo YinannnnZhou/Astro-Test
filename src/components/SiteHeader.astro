@@ -1,0 +1,121 @@
+---
+const products = {
+  Performance: [
+    ['OKR','/products/OKR'], ['KPI','/products/KPI'],
+    ['360° Feedback','/products/360-feedback'], ['Talent Review','/products/talent-review'],
+  ],
+  Development: [
+    ['Talent Pool','/products/talent-pool'], ['Skill','/products/skill'], ['IDP','/products/IDP'],
+    ['Succession','/products/succession'], ['Learn','/partner/docebo'],
+    ['Talent Marketplace','/products/talent-marketplace'],
+  ],
+};
+const company = {
+  Partner: [['Docebo','/partner/docebo'],['Cornerstone OnDemand','/partner/cornerstone-ondemand'],['LinkedIn','/partner/LinkedIn'],['AWS','/partner/AWS']],
+  Resources: [['Blog','/resources/blog'],['News','/resources/news']],
+};
+---
+
+<div class="native-top">
+  <div class="top-inner">
+    <div class="language-control menu-holder" data-menu-holder>
+      <button class="icon-trigger" type="button" aria-label="Language selection menu" aria-expanded="false" data-menu-trigger>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2m6.93 6h-2.95a15.7 15.7 0 0 0-1.38-3.56A8.03 8.03 0 0 1 18.92 8M12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82A14.7 14.7 0 0 1 12 4.04M4.26 14A8 8 0 0 1 4 12c0-.69.1-1.36.26-2h3.38a16.7 16.7 0 0 0 0 4zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56A8.04 8.04 0 0 1 5.08 16m2.95-8H5.08a8.04 8.04 0 0 1 4.33-3.56A15.7 15.7 0 0 0 8.03 8M12 19.96A14.7 14.7 0 0 1 10.09 16h3.82A14.7 14.7 0 0 1 12 19.96M14.34 14H9.66a15.8 15.8 0 0 1 0-4h4.68a15.8 15.8 0 0 1 0 4m.25 5.56A15.7 15.7 0 0 0 15.97 16h2.95a8.04 8.04 0 0 1-4.33 3.56M16.36 14a16.7 16.7 0 0 0 0-4h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2z"/></svg>
+        <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m7.4 8.6 4.6 4.6 4.6-4.6L18 10l-6 6-6-6z"/></svg>
+      </button>
+      <ul class="dropdown language-menu" data-menu role="menu">
+        <li><a href="/products/360-feedback" aria-current="page">English</a></li>
+        <li><a href="https://www.atalent.cn/products/360-feedback">简体中文</a></li>
+        <li><a href="/zh-hk/products/360-feedback">繁體中文</a></li>
+      </ul>
+    </div>
+    <button class="theme-trigger" type="button" aria-label="Dark mode toggler" aria-pressed="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 0 1 8.646 3.646 9.003 9.003 0 0 0 12 21a9.003 9.003 0 0 0 8.354-5.646Z"/></svg>
+    </button>
+  </div>
+</div>
+
+<header class="native-header">
+  <div class="header-inner">
+    <a class="native-logo" href="/" aria-label="aTalent home"><img src="https://assets.atalent.com/Uploads/a_Talent_logo_Dark_e97b353bb7.svg" alt="aTalent Logo" /></a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <div class="menu-holder products-holder" data-menu-holder>
+        <button class="nav-trigger" type="button" data-menu-trigger aria-expanded="false">Products <span>⌄</span></button>
+        <div class="dropdown products-menu" data-menu>
+          {Object.entries(products).map(([heading,items]) => <div><h3>{heading}</h3>{items.map(([label,href]) => <a href={href} aria-current={label === '360° Feedback' ? 'page' : undefined}>{label}</a>)}</div>)}
+        </div>
+      </div>
+      <a class="nav-link ai-link" href="/ai">AI</a>
+      <div class="menu-holder" data-menu-holder>
+        <button class="nav-trigger" type="button" data-menu-trigger aria-expanded="false">Solutions <span>⌄</span></button>
+        <div class="dropdown standard-menu" data-menu><a href="/customer-stories">Customer Stories</a></div>
+      </div>
+      <div class="menu-holder" data-menu-holder>
+        <button class="nav-trigger" type="button" data-menu-trigger aria-expanded="false">Company <span>⌄</span></button>
+        <div class="dropdown company-menu" data-menu>
+          <a href="/about-us">About aTalent</a>
+          {Object.entries(company).map(([heading,items]) => <div class="company-group"><h3>{heading}</h3>{items.map(([label,href]) => <a href={href}>{label}</a>)}</div>)}
+          <a href="/security-compliance">Security &amp; Compliance</a>
+          <a href="https://trailblazer.atalent.com/" target="_blank" rel="noopener noreferrer">Trailblazer</a>
+        </div>
+      </div>
+      <a class="demo-button" href="/contact">Schedule a Demo</a>
+    </nav>
+    <button class="mobile-trigger" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav class="mobile-panel" aria-label="Mobile navigation" hidden>
+      <a href="/products/360-feedback">360° Feedback</a><a href="/products/OKR">OKR</a><a href="/products/KPI">KPI</a><a href="/ai">AI</a><a href="/customer-stories">Customer Stories</a><a href="/about-us">About aTalent</a><a class="demo-button" href="/contact">Schedule a Demo</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('.native-header');
+  const setHeader = () => header?.classList.toggle('scrolled', window.scrollY > 12);
+  setHeader(); window.addEventListener('scroll', setHeader, { passive: true });
+
+  document.querySelectorAll<HTMLElement>('[data-menu-holder]').forEach((holder) => {
+    const trigger = holder.querySelector<HTMLButtonElement>('[data-menu-trigger]');
+    let closeTimer: number | undefined; let fadeTimer: number | undefined;
+    const open = () => { clearTimeout(closeTimer); clearTimeout(fadeTimer); holder.classList.remove('closing'); holder.classList.add('open'); trigger?.setAttribute('aria-expanded','true'); };
+    const close = () => { clearTimeout(closeTimer); closeTimer=window.setTimeout(()=>{ holder.classList.add('closing'); holder.classList.remove('open'); trigger?.setAttribute('aria-expanded','false'); fadeTimer=window.setTimeout(()=>holder.classList.remove('closing'),190); },150); };
+    holder.addEventListener('mouseenter',open); holder.addEventListener('mouseleave',close);
+    trigger?.addEventListener('click',()=>holder.classList.contains('open')?close():open());
+    trigger?.addEventListener('keydown',(e)=>{ if(e.key==='Escape') close(); });
+  });
+
+  const themeButton=document.querySelector<HTMLButtonElement>('.theme-trigger');
+  const logo=document.querySelector<HTMLImageElement>('.native-logo img');
+  const applyTheme=(mode:string)=>{
+    document.documentElement.dataset.theme=mode; localStorage.setItem('themeMode',mode);
+    themeButton?.setAttribute('aria-pressed',String(mode==='dark'));
+    const icon=themeButton?.querySelector('svg');
+    if(icon) icon.innerHTML=mode==='dark'
+      ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728 0-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/>'
+      : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 0 1 8.646 3.646 9.003 9.003 0 0 0 12 21a9.003 9.003 0 0 0 8.354-5.646Z"/>';
+    if(logo) logo.src=mode==='dark'?'https://assets.atalent.com/Uploads/a_Talent_logo_white_0b77096005.svg':'https://assets.atalent.com/Uploads/a_Talent_logo_Dark_e97b353bb7.svg';
+  };
+  applyTheme(document.documentElement.dataset.theme || 'light');
+  themeButton?.addEventListener('click',()=>applyTheme(document.documentElement.dataset.theme==='dark'?'light':'dark'));
+
+  const mobileButton=document.querySelector<HTMLButtonElement>('.mobile-trigger');
+  const mobilePanel=document.querySelector<HTMLElement>('.mobile-panel');
+  mobileButton?.addEventListener('click',()=>{ const open=mobilePanel?.hidden ?? true; if(mobilePanel) mobilePanel.hidden=!open; mobileButton.setAttribute('aria-expanded',String(open)); });
+</script>
+
+<style>
+  .native-top{position:relative;z-index:1250;background:transparent}.top-inner{display:flex;width:min(1236px,100%);margin:auto;padding:8px 16px 0;align-items:center;justify-content:flex-end;gap:8px}
+  .icon-trigger,.theme-trigger,.nav-trigger,.mobile-trigger{font:inherit}.icon-trigger,.theme-trigger{display:inline-flex;min-width:auto;align-items:center;justify-content:center;border:1px solid rgba(0,0,0,.2);border-radius:8px;background:transparent;cursor:pointer}.icon-trigger{border:0;padding:0}.icon-trigger svg:first-child{width:24px;height:24px}.icon-trigger .chevron{width:16px;height:16px}.theme-trigger{padding:4px;color:#69306d}.theme-trigger svg{width:20px;height:20px}
+  .native-header{position:sticky;top:0;z-index:1200;width:100%;background:transparent;transition:background-color 220ms ease,box-shadow 220ms ease,backdrop-filter 220ms ease}.native-header.scrolled{background:rgba(255,255,255,.96);box-shadow:0 8px 24px rgba(30,32,34,.10);backdrop-filter:blur(12px)}
+  .header-inner{position:relative;display:flex;width:min(1236px,100%);min-height:72px;margin:auto;padding:8px 16px;align-items:center}.native-logo{display:block;width:160px;margin-right:auto}.native-logo img{display:block;width:100%;height:auto}.desktop-nav{display:flex;align-items:center;gap:32px}.nav-link,.nav-trigger{border:0;background:transparent;color:#1e2022;font-size:16px;text-decoration:none;cursor:pointer}.nav-trigger{padding:8px 0}.nav-trigger span{margin-left:3px}.ai-link{text-transform:lowercase}.demo-button{display:inline-flex;min-width:160px;height:48px;padding:0 20px;align-items:center;justify-content:center;border-radius:5px;background:#69306d;color:#fff!important;font-size:16px;font-weight:500;text-decoration:none;transition:background-color 250ms ease,box-shadow 250ms ease}.demo-button:hover{background:#2f6ad9;box-shadow:0 6px 16px rgba(47,106,217,.28)}
+  .menu-holder{position:relative}.dropdown{position:absolute;top:100%;left:50%;z-index:1800;margin-top:4px;padding:16px;border-top:3px solid #69306d;border-radius:0 0 8px 8px;background:#fff;box-shadow:0 8px 24px rgba(30,32,34,.16);visibility:hidden;opacity:0;pointer-events:none;transform:translate(-50%,-8px) scale(.98);transform-origin:top center;transition:opacity 180ms ease,transform 180ms ease,visibility 180ms}.dropdown:before{position:absolute;right:0;bottom:100%;left:0;height:8px;content:""}.menu-holder.open .dropdown{visibility:visible;opacity:1;pointer-events:auto;transform:translate(-50%,0) scale(1)}.menu-holder.closing .dropdown{visibility:visible;opacity:0;transform:translate(-50%,0) scale(1)}
+  .dropdown a{display:block;margin:2px 0;padding:8px 16px;border-radius:8px;color:#1e2022;font-size:14px;line-height:1.43;text-decoration:none;white-space:nowrap}.dropdown a:hover,.dropdown a:focus-visible{color:#69306d;background:rgba(105,48,109,.2);outline:0}.dropdown a[aria-current=page]{color:#69306d;background:rgba(105,48,109,.1);font-weight:600}.dropdown h3{margin:0;padding:8px 16px;color:#677788;font-size:14px}.products-menu{display:grid;width:min(600px,calc(100vw - 32px));grid-template-columns:1fr 1fr;gap:32px}.standard-menu,.company-menu{width:min(300px,calc(100vw - 32px))}.company-group{margin:8px 0}.company-group a{margin-left:16px}
+  .language-menu{width:max-content;min-width:120px;margin-top:16px;padding:8px}.language-menu:before{height:20px}
+  .mobile-trigger,.mobile-panel{display:none}
+  :global(html[data-theme=dark]) .native-header.scrolled{background:rgba(34,43,69,.96);box-shadow:0 8px 24px rgba(0,0,0,.22)}
+  :global(html[data-theme=dark]) .nav-link,:global(html[data-theme=dark]) .nav-trigger{color:#eeeef0}
+  :global(html[data-theme=dark]) .dropdown{border-top-color:#1976d2;background:#222b45}
+  :global(html[data-theme=dark]) .dropdown a{color:#eeeef0}:global(html[data-theme=dark]) .dropdown h3{color:#aeb0b4}:global(html[data-theme=dark]) .dropdown a:hover,:global(html[data-theme=dark]) .dropdown a[aria-current=page]{color:#1976d2;background:rgba(25,118,210,.1)}
+  :global(html[data-theme=dark]) .theme-trigger{color:#ffe102;border-color:rgba(255,255,255,.2)}:global(html[data-theme=dark]) .theme-trigger:hover{border-color:#ffe102;background:rgba(255,225,2,.08)}
+  :global(html[data-theme=dark]) .demo-button{background:#1976d2}:global(html[data-theme=dark]) .demo-button:hover{background:#0d47a1}
+  @media(max-width:899px){.desktop-nav{display:none}.mobile-trigger{display:flex;width:40px;height:40px;flex-direction:column;justify-content:center;gap:5px;border:1px solid rgba(0,0,0,.2);border-radius:8px;background:transparent}.mobile-trigger span{display:block;width:20px;height:2px;margin:0 auto;background:currentColor}.mobile-panel{position:absolute;top:100%;right:16px;width:min(330px,calc(100vw - 32px));padding:16px;border-top:3px solid #69306d;border-radius:0 0 8px 8px;background:#fff;box-shadow:0 16px 36px rgba(30,32,34,.16)}.mobile-panel:not([hidden]){display:grid}.mobile-panel a{padding:9px 8px;text-decoration:none}.mobile-panel .demo-button{margin-top:10px}:global(html[data-theme=dark]) .mobile-panel{border-color:#1976d2;background:#222b45}:global(html[data-theme=dark]) .mobile-panel a{color:#eeeef0}}
+</style>

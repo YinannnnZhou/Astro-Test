@@ -2,600 +2,66 @@
 import FAQSection from '../components/FAQSection.astro';
 import CapabilitiesSection from '../components/CapabilitiesSection.astro';
 import Hero360 from '../components/Hero360.astro';
-import ProofSection from '../components/ProofSection.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import Smart360 from '../components/Smart360.astro';
+import MotionRuntime from '../components/MotionRuntime.astro';
+import ProofSection from '../components/ProofSection.astro';
 import TestimonialsSection from '../components/TestimonialsSection.astro';
 import FinalCta from '../components/FinalCta.astro';
 import SiteFooter from '../components/SiteFooter.astro';
-import MotionRuntime from '../components/MotionRuntime.astro';
 import { createReader } from '@keystatic/core/reader';
 import keystaticConfig from '../../keystatic.config';
-import originalPage from '../snapshots/atalent-360.html?raw';
-import originalStyles from '../styles/atalent-original.css?raw';
 
 const reader = createReader(process.cwd(), keystaticConfig);
 const [faqPage, capabilitiesPage, smart360, testimonials360, product360] = await Promise.all([
-  reader.singletons.faqPage.read(),
-  reader.singletons.capabilities360.read(),
-  reader.singletons.smart360.read(),
-  reader.singletons.testimonials360.read(),
-  reader.singletons.product360.read(),
+  reader.singletons.faqPage.read(), reader.singletons.capabilities360.read(), reader.singletons.smart360.read(),
+  reader.singletons.testimonials360.read(), reader.singletons.product360.read(),
 ]);
+if (!faqPage || !capabilitiesPage || !smart360 || !testimonials360 || !product360) throw new Error('360 page content is missing.');
 
-if (!faqPage || !capabilitiesPage || !smart360 || !testimonials360 || !product360) {
-  throw new Error('360 page content is missing.');
-}
-
-const headerStart = '<div class="MuiBox-root css-0"><div class="MuiBox-root css-1sgw15m">';
-const heroStart = '<div class="MuiBox-root css-79elbk">';
-const powerStart = '<div class="MuiBox-root css-0"><div class="MuiBox-root css-18033jt "><div class="MuiBox-root css-1tt9l8n">';
-const capabilityStart = '<div class="MuiBox-root css-0"><div class="MuiBox-root css-18033jt"><div class="MuiBox-root css-ib9iq6">';
-const capabilityEnd = '<div class="MuiBox-root css-0"><div class="MuiBox-root css-18033jt"><div class="MuiBox-root css-touz9j ">';
-const smartEnd = '<div class="MuiBox-root css-0"><div class="MuiBox-root css-18033jt"><div class="MuiBox-root css-0"><div class="MuiBox-root css-d32wgk">';
-const headerStartIndex = originalPage.indexOf(headerStart);
-const mainStartIndex = originalPage.indexOf('<main>', headerStartIndex);
-const heroStartIndex = originalPage.indexOf(heroStart);
-const powerStartIndex = originalPage.indexOf(powerStart, heroStartIndex);
-const capabilityStartIndex = originalPage.indexOf(capabilityStart);
-const capabilityEndIndex = originalPage.indexOf(capabilityEnd, capabilityStartIndex);
-const smartEndIndex = originalPage.indexOf(smartEnd, capabilityEndIndex);
-
-if (headerStartIndex < 0 || mainStartIndex < 0 || heroStartIndex < 0 || powerStartIndex < 0 || capabilityStartIndex < 0 || capabilityEndIndex < 0 || smartEndIndex < 0) {
-  throw new Error('Capability section boundaries are missing from the page snapshot.');
-}
-
-const beforeHeader = originalPage.slice(0, headerStartIndex);
-const mainOpen = originalPage.slice(mainStartIndex, heroStartIndex);
-const afterSmart = originalPage.slice(smartEndIndex);
-const faqMarkerIndex = afterSmart.indexOf('<!--FAQ_SLOT-->');
-
-if (faqMarkerIndex < 0) {
-  throw new Error('FAQ insertion point is missing from the aTalent page snapshot.');
-}
-
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: faqPage.faqs.map((faq) => ({
-    '@type': 'Question',
-    name: faq.question,
-    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
-  })),
-};
+const organizationSchema = { '@context':'https://schema.org','@type':'Organization',name:'aTalent',legalName:'aTalent SG PTE LTD',url:'https://www.atalent.com',logo:'https://assets.atalent.com/logo.png',foundingDate:'2015',areaServed:'Worldwide',description:'aTalent is an AI-powered enterprise talent management platform helping organizations manage performance, develop talent, and drive business outcomes.' };
+const breadcrumbSchema = { '@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[
+  {'@type':'ListItem',position:1,name:'Home',item:'https://www.atalent.com/'},
+  {'@type':'ListItem',position:2,name:'Products',item:'https://www.atalent.com/products'},
+  {'@type':'ListItem',position:3,name:'aTalent 360° Feedback',item:'https://www.atalent.com/products/360-feedback'},
+] };
+const productDescription = product360.metaDescription || product360.description;
+const softwareSchema = { '@context':'https://schema.org','@type':'SoftwareApplication',name:'aTalent 360° Feedback',applicationCategory:'BusinessApplication',applicationSubCategory:'Performance Management',description:productDescription,url:'https://www.atalent.com/products/360-feedback',operatingSystem:'Web',featureList:capabilitiesPage.features.map((feature)=>feature.title),provider:{'@type':'Organization',name:'aTalent',url:'https://www.atalent.com'} };
+const productSchema = { '@context':'https://schema.org','@type':'Product',name:'aTalent 360° Feedback',description:productDescription,url:'https://www.atalent.com/products/360-feedback',image:product360.heroImageUrl,brand:{'@type':'Brand',name:'aTalent'} };
+const faqSchema = { '@context':'https://schema.org','@type':'FAQPage',mainEntity:faqPage.faqs.map((faq)=>({'@type':'Question',name:faq.question,acceptedAnswer:{'@type':'Answer',text:faq.answer}})) };
+const schemas = [organizationSchema,breadcrumbSchema,softwareSchema,productSchema,faqSchema];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="description" content="Gather multi-source feedback, identify development priorities and explore common questions about enterprise 360-degree feedback." />
-    <title>360 Degree Feedback Platform for Employee Insights | aTalent</title>
+    <meta name="description" content={product360.metaDescription} />
+    <link rel="canonical" href="https://www.atalent.com/products/360-feedback" />
+    <title>{product360.metaTitle}</title>
     <script is:inline>
-      (() => {
-        const saved = localStorage.getItem('themeMode');
-        const mode = saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.dataset.theme = mode;
-      })();
+      (() => { const saved=localStorage.getItem('themeMode'); document.documentElement.dataset.theme=saved||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'); })();
     </script>
-    <link rel="stylesheet" href="https://www.atalent.com/_next/static/css/d829c41e8156d33a.css" />
-    <Fragment set:html={`<style>${originalStyles}</style>`} />
-    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+    {schemas.map((schema)=><script type="application/ld+json" set:html={JSON.stringify(schema)}></script>)}
     <style is:global>
-      html { scroll-behavior: smooth; }
-      body { margin: 0; }
-    
-      header.css-ibyuam {
-        transition: background-color 220ms ease, box-shadow 220ms ease, backdrop-filter 220ms ease;
-      }
-    
-      header.css-ibyuam.pilot-nav-scrolled {
-        background: rgba(255, 255, 255, 0.96) !important;
-        box-shadow: 0 8px 24px rgba(30, 32, 34, 0.10) !important;
-        backdrop-filter: blur(12px);
-      }
-    
-      .pilot-nav-holder {
-        position: relative;
-      }
-    
-      .pilot-nav-menu {
-        display: block;
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        z-index: 1500;
-        min-width: 230px;
-        margin: 4px 0 0;
-        padding: 8px 0;
-        visibility: hidden;
-        opacity: 0;
-        pointer-events: none;
-        transform: translate(-50%, -8px) scale(0.98);
-        transform-origin: top center;
-        transition: opacity 180ms ease, transform 180ms ease, visibility 180ms;
-        list-style: none;
-        border-top: 3px solid #69306d;
-        border-radius: 0 0 8px 8px;
-        background: #fff;
-        box-shadow: 0 16px 36px rgba(30, 32, 34, 0.14);
-      }
-    
-      .pilot-nav-menu::before {
-        position: absolute;
-        right: 0;
-        bottom: 100%;
-        left: 0;
-        height: 8px;
-        content: '';
-      }
-
-      .pilot-nav-holder:hover > .pilot-nav-menu,
-      .pilot-nav-holder:focus-within > .pilot-nav-menu,
-      .pilot-nav-holder.menu-open > .pilot-nav-menu {
-        visibility: visible;
-        opacity: 1;
-        pointer-events: auto;
-        transform: translate(-50%, 0) scale(1);
-      }
-
-      .pilot-nav-holder.menu-closing > .pilot-nav-menu {
-        visibility: visible;
-        opacity: 0;
-        pointer-events: none;
-        transform: translate(-50%, 0) scale(1);
-      }
-
-      .pilot-nav-menu-products {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 32px;
-        width: min(600px, calc(100vw - 32px));
-        max-width: 600px;
-        padding: 16px;
-        box-sizing: border-box;
-      }
-
-      .pilot-nav-group {
-        min-width: 0;
-        list-style: none;
-      }
-
-      .pilot-nav-group-title {
-        display: block;
-        padding: 8px 16px;
-        color: #6b7c90;
-        font: 700 0.875rem/1.43 Inter, sans-serif;
-      }
-
-      .pilot-nav-menu-company,
-      .pilot-nav-menu-standard {
-        width: min(300px, calc(100vw - 32px));
-        max-width: 300px;
-        padding: 16px;
-        box-sizing: border-box;
-      }
-
-      .pilot-nav-company-group {
-        margin: 8px 0;
-        list-style: none;
-      }
-
-      .pilot-nav-company-list {
-        margin: 0;
-        padding: 0 0 0 16px;
-        list-style: none;
-      }
-
-      html[data-theme='dark'] body {
-        background: #222b45;
-        color: #eeeef0;
-      }
-
-      html[data-theme='dark'] .css-1sgw15m,
-      html[data-theme='dark'] header.css-ibyuam {
-        background: transparent !important;
-      }
-
-      html[data-theme='dark'] header.css-ibyuam.pilot-nav-scrolled {
-        background: rgba(34, 43, 69, 0.96) !important;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22) !important;
-        backdrop-filter: blur(12px);
-      }
-
-      html[data-theme='dark'] header.css-ibyuam a,
-      html[data-theme='dark'] header.css-ibyuam p,
-      html[data-theme='dark'] header.css-ibyuam svg,
-      html[data-theme='dark'] .css-1sgw15m svg {
-        color: #eeeef0 !important;
-      }
-
-      .css-u5b23e {
-        min-width: auto !important;
-        padding: 4px !important;
-        border-radius: 8px !important;
-        transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
-                    border-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
-                    color 250ms cubic-bezier(0.4, 0, 0.2, 1) !important;
-      }
-
-      .css-u5b23e svg {
-        width: 20px;
-        height: 20px;
-      }
-
-      html[data-theme='light'] .css-u5b23e {
-        color: #69306d !important;
-        border-color: rgba(0, 0, 0, 0.20) !important;
-      }
-
-      html[data-theme='light'] .css-u5b23e:hover {
-        color: #69306d !important;
-        border-color: #69306d !important;
-        background: rgba(105, 48, 109, 0.04) !important;
-      }
-
-      html[data-theme='dark'] .css-u5b23e,
-      html[data-theme='dark'] .css-1sgw15m .css-u5b23e svg {
-        color: #ffe102 !important;
-        border-color: rgba(255, 255, 255, 0.20) !important;
-      }
-
-      html[data-theme='dark'] .css-u5b23e:hover {
-        color: #ffe102 !important;
-        border-color: #ffe102 !important;
-        background: rgba(255, 225, 2, 0.08) !important;
-      }
-
-      body,
-      header.css-ibyuam,
-      .css-19101ww,
-      .css-1fgqj6e,
-      .MuiPaper-root,
-      .capabilities-native,
-      .smart360,
-      .faq-pilot {
-        transition: background-color 260ms ease, color 260ms ease, border-color 260ms ease;
-      }
-
-      html[data-theme='dark'] .MuiTypography-root,
-      html[data-theme='dark'] .capabilities-native,
-      html[data-theme='dark'] .capability-copy h2,
-      html[data-theme='dark'] .capability-copy p,
-      html[data-theme='dark'] .faq-pilot,
-      html[data-theme='dark'] .faq-heading h2,
-      html[data-theme='dark'] .faq-item summary {
-        color: #eeeef0 !important;
-      }
-
-      html[data-theme='dark'] .css-19101ww,
-      html[data-theme='dark'] .faq-pilot {
-        background: #1a2138 !important;
-      }
-
-      html[data-theme='dark'] .capabilities-native {
-        background: #222b45 !important;
-      }
-
-      html[data-theme='dark'] .MuiPaper-root,
-      html[data-theme='dark'] .pilot-nav-menu,
-      html[data-theme='dark'] .smart-card {
-        background: #2d3748 !important;
-        color: #eeeef0 !important;
-      }
-
-      html[data-theme='dark'] .pilot-nav-menu a,
-      html[data-theme='dark'] .pilot-nav-group-title {
-        color: #eeeef0;
-      }
-
-      html[data-theme='dark'] .pilot-nav-group-title,
-      html[data-theme='dark'] .faq-heading > p:last-child,
-      html[data-theme='dark'] .faq-answer p,
-      html[data-theme='dark'] .smart-aside > div > p {
-        color: #aeb0b4 !important;
-      }
-
-      html[data-theme='dark'] .smart360 {
-        background: #1a2138;
-        color: #eeeef0;
-      }
-
-      html[data-theme='dark'] .capability-media img {
-        filter: brightness(0.8);
-      }
-
-      html[data-theme='dark'] .faq-list,
-      html[data-theme='dark'] .faq-item {
-        border-color: rgba(255, 255, 255, 0.12);
-      }
-
-      html[data-theme='dark'] .pilot-nav-menu {
-        border-top-color: #1976d2;
-      }
-
-      html[data-theme='dark'] .pilot-nav-menu a[aria-current='page'] {
-        color: #1976d2;
-        background: rgba(25, 118, 210, 0.10);
-      }
-
-      html[data-theme='dark'] .pilot-nav-menu a:hover,
-      html[data-theme='dark'] .pilot-nav-menu a:focus-visible {
-        color: #1976d2;
-        background: rgba(25, 118, 210, 0.20);
-      }
-
-      html[data-theme='dark'] .css-x4iqch,
-      html[data-theme='dark'] .css-o6p3jo,
-      html[data-theme='dark'] .pilot-mobile-cta {
-        background: #1976d2 !important;
-        color: #fff !important;
-      }
-
-      html[data-theme='dark'] .faq-label {
-        color: #1976d2 !important;
-        background: transparent !important;
-      }
-
-      html[data-theme='dark'] .faq-toggle::before,
-      html[data-theme='dark'] .faq-toggle::after {
-        background-color: #1976d2;
-      }
-
-      html[data-theme='dark'] .smart360 .smart-dots button.active {
-        background: #1976d2 !important;
-      }
-
-      html[data-theme='dark'] .css-1vkac6x path {
-        fill: #222b45;
-      }
-
-      html[data-theme='dark'] .smart360 {
-        background: #0d47a1;
-      }
-
-      html[data-theme='dark'] .smart-card,
-      html[data-theme='dark'] .MuiPaper-root {
-        background: #222b45 !important;
-      }
-
-      .css-x4iqch,
-      .css-o6p3jo,
-      .pilot-mobile-cta {
-        transition: background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease !important;
-      }
-
-      .css-x4iqch:hover,
-      .css-o6p3jo:hover,
-      .pilot-mobile-cta:hover {
-        background: #2f6ad9 !important;
-        box-shadow: 0 6px 16px rgba(47, 106, 217, 0.28) !important;
-        transform: translateY(-1px);
-      }
-
-      html[data-theme='dark'] .css-x4iqch:hover,
-      html[data-theme='dark'] .css-o6p3jo:hover,
-      html[data-theme='dark'] .pilot-mobile-cta:hover {
-        background: #0d47a1 !important;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28) !important;
-      }
-
-      .css-x4iqch:focus-visible,
-      .css-o6p3jo:focus-visible,
-      .pilot-mobile-cta:focus-visible {
-        outline: 3px solid rgba(105, 48, 109, 0.28);
-        outline-offset: 3px;
-      }
-
-      html[data-theme='dark'] .css-x4iqch:focus-visible,
-      html[data-theme='dark'] .css-o6p3jo:focus-visible,
-      html[data-theme='dark'] .pilot-mobile-cta:focus-visible {
-        outline-color: rgba(25, 118, 210, 0.42);
-      }
-    
-      .pilot-nav-menu a {
-        display: block;
-        margin: 2px 0;
-        padding: 8px 16px;
-        border-radius: 8px;
-        color: #1e2022;
-        font: 400 0.875rem/1.43 Inter, sans-serif;
-        text-decoration: none;
-        white-space: nowrap;
-      }
-    
-      .pilot-nav-menu a[aria-current="page"] {
-        color: #69306d;
-        background: rgba(105, 48, 109, 0.10);
-        font-weight: 600;
-      }
-
-      .pilot-nav-menu a:hover,
-      .pilot-nav-menu a:focus-visible {
-        color: #69306d;
-        background: rgba(105, 48, 109, 0.20);
-        outline: none;
-      }
-    
-      .css-ijq4xa {
-        position: relative;
-      }
-
-      .pilot-language-holder {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        width: max-content;
-      }
-
-      .css-1sgw15m.language-layer-open {
-        z-index: 1800;
-      }
-
-      .pilot-language-menu {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        z-index: 1700;
-        display: block;
-        min-width: 120px;
-        margin-top: 16px;
-        padding: 8px;
-        border-top: 3px solid #69306d;
-        border-radius: 0 0 8px 8px;
-        background: #fff;
-        box-shadow: 0 8px 24px rgba(30, 32, 34, 0.16);
-        visibility: hidden;
-        opacity: 0;
-        pointer-events: none;
-        transform: translate(-50%, -8px) scale(0.98);
-        transform-origin: top center;
-        transition: opacity 180ms ease, transform 180ms ease, visibility 180ms;
-        list-style: none;
-      }
-
-      .pilot-language-menu::before {
-        position: absolute;
-        right: 0;
-        bottom: 100%;
-        left: 0;
-        height: 20px;
-        content: '';
-      }
-
-      .pilot-language-holder:hover .pilot-language-menu,
-      .pilot-language-holder:focus-within .pilot-language-menu,
-      .pilot-language-holder.language-open .pilot-language-menu {
-        visibility: visible;
-        opacity: 1;
-        pointer-events: auto;
-        transform: translate(-50%, 0) scale(1);
-      }
-
-      .pilot-language-holder.language-closing .pilot-language-menu {
-        visibility: visible;
-        opacity: 0;
-        pointer-events: none;
-        transform: translate(-50%, 0) scale(1);
-      }
-
-      .pilot-language-menu a {
-        display: block;
-        padding: 8px;
-        border-radius: 8px;
-        color: #1e2022;
-        font: 400 0.875rem/1.43 Inter, sans-serif;
-        text-decoration: none;
-        white-space: nowrap;
-      }
-
-      .pilot-language-menu a:hover,
-      .pilot-language-menu a:focus-visible {
-        color: #69306d;
-        background: rgba(105, 48, 109, 0.10);
-        outline: none;
-      }
-
-      .pilot-language-menu a[aria-current='true'] {
-        color: #69306d;
-        background: rgba(105, 48, 109, 0.10);
-        font-weight: 600;
-      }
-
-      html[data-theme='dark'] .pilot-language-menu {
-        border-top-color: #1976d2;
-        background: #222b45;
-      }
-
-      html[data-theme='dark'] .pilot-language-menu a {
-        color: #eeeef0;
-      }
-
-      html[data-theme='dark'] .pilot-language-menu a:hover,
-      html[data-theme='dark'] .pilot-language-menu a:focus-visible,
-      html[data-theme='dark'] .pilot-language-menu a[aria-current='true'] {
-        color: #1976d2;
-        background: rgba(25, 118, 210, 0.10);
-      }
-    
-      .pilot-mobile-menu {
-        position: absolute;
-        top: calc(100% + 10px);
-        right: 0;
-        z-index: 1600;
-        width: min(330px, calc(100vw - 32px));
-        max-height: calc(100vh - 100px);
-        overflow: auto;
-        padding: 16px;
-        border-top: 3px solid #69306d;
-        border-radius: 0 0 10px 10px;
-        background: #fff;
-        box-shadow: 0 16px 36px rgba(30, 32, 34, 0.16);
-      }
-    
-      .pilot-mobile-menu[hidden] {
-        display: none;
-      }
-    
-      .pilot-mobile-menu a,
-      .pilot-mobile-heading {
-        display: block;
-        margin: 0;
-        padding: 9px 8px;
-        color: #1e2022;
-        font: 400 0.9375rem/1.4 Inter, sans-serif;
-        text-decoration: none;
-      }
-    
-      .pilot-mobile-heading {
-        margin-top: 8px;
-        color: #69306d;
-        font-weight: 600;
-      }
-    
-      .pilot-mobile-cta {
-        margin-top: 12px;
-        border-radius: 6px;
-        color: #fff !important;
-        background: #69306d;
-        text-align: center;
-      }
-    
-      .slick-slider .slick-slide {
-        transition: opacity 180ms ease;
-      }
-    
-      @media (prefers-reduced-motion: reduce) {
-        header.css-ibyuam,
-        .slick-slider .slick-slide {
-          transition: none;
-        }
-      }
+      html{box-sizing:border-box;scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-text-size-adjust:100%}*,*::before,*::after{box-sizing:inherit}
+      body{margin:0;overflow-x:hidden;background:#fff;color:#1e2022;font:400 1rem/1.5 Inter,Arial,sans-serif;transition:background-color 260ms ease,color 260ms ease}button,input,textarea,select{font:inherit}
+      html[data-theme='dark'] body{background:#222b45;color:#eeeef0}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
     </style>
   </head>
   <body>
-    <Fragment set:html={beforeHeader} />
     <SiteHeader />
-    <Fragment set:html={mainOpen} />
-    <Hero360 title={product360.title} description={product360.description} imageUrl={product360.heroImageUrl} imageAlt={product360.heroImageAlt} />
-    <ProofSection heading={product360.proofHeading} description={product360.proofDescription} ctaLabel={product360.proofCtaLabel} ctaHref="/contact" stats={product360.proofStats} />
-    <CapabilitiesSection features={capabilitiesPage.features} />
-    <Smart360 title={smart360.title} intro={smart360.intro} featureList={smart360.featureList} slides={smart360.slides} />
-    <TestimonialsSection heading={testimonials360.heading} description={testimonials360.description} aiCtaLabel={testimonials360.aiCtaLabel} aiCtaHref={testimonials360.aiCtaHref} testimonials={testimonials360.testimonials} />
-    <FAQSection
-      label={faqPage.label}
-      heading={faqPage.heading}
-      introduction={faqPage.introduction}
-      faqs={faqPage.faqs}
-    />
-    <FinalCta heading={product360.finalHeading} description={product360.finalDescription} ctaLabel={product360.primaryCta} ctaHref="/contact" />
-    <Fragment set:html={'</main>'} />
+    <main>
+      <Hero360 title={product360.title} description={product360.description} imageUrl={product360.heroImageUrl} imageAlt={product360.heroImageAlt} />
+      <ProofSection heading={product360.proofHeading} description={product360.proofDescription} ctaLabel={product360.proofCtaLabel} ctaHref="/contact" stats={product360.proofStats} />
+      <CapabilitiesSection features={capabilitiesPage.features} />
+      <Smart360 title={smart360.title} intro={smart360.intro} featureList={smart360.featureList} slides={smart360.slides} />
+      <TestimonialsSection heading={testimonials360.heading} description={testimonials360.description} aiCtaLabel={testimonials360.aiCtaLabel} aiCtaHref={testimonials360.aiCtaHref} testimonials={testimonials360.testimonials} />
+      <FAQSection label={faqPage.label} heading={faqPage.heading} introduction={faqPage.introduction} faqs={faqPage.faqs} />
+      <FinalCta heading={product360.finalHeading} description={product360.finalDescription} ctaLabel={product360.primaryCta} ctaHref="/contact" />
+    </main>
     <SiteFooter copyright={product360.footerCopyright} />
-    <Fragment set:html={'</div>'} />
-
     <MotionRuntime />
-
-    
   </body>
 </html>

@@ -1,20 +1,35 @@
 ---
 import FAQSection from '../components/FAQSection.astro';
+import CapabilitiesSection from '../components/CapabilitiesSection.astro';
 import { createReader } from '@keystatic/core/reader';
 import keystaticConfig from '../../keystatic.config';
 import originalPage from '../snapshots/atalent-360.html?raw';
 import originalStyles from '../styles/atalent-original.css?raw';
 
 const reader = createReader(process.cwd(), keystaticConfig);
-const faqPage = await reader.singletons.faqPage.read();
+const [faqPage, capabilitiesPage] = await Promise.all([
+  reader.singletons.faqPage.read(),
+  reader.singletons.capabilities360.read(),
+]);
 
-if (!faqPage) {
-  throw new Error('FAQ content is missing from src/content/faq-page.json.');
+if (!faqPage || !capabilitiesPage) {
+  throw new Error('360 page content is missing.');
 }
 
-const [beforeFaq, afterFaq] = originalPage.split('<!--FAQ_SLOT-->');
+const capabilityStart = '<div class="MuiBox-root css-0"><div class="MuiBox-root css-18033jt"><div class="MuiBox-root css-ib9iq6">';
+const capabilityEnd = '<div class="MuiBox-root css-0"><div class="MuiBox-root css-18033jt"><div class="MuiBox-root css-touz9j ">';
+const capabilityStartIndex = originalPage.indexOf(capabilityStart);
+const capabilityEndIndex = originalPage.indexOf(capabilityEnd, capabilityStartIndex);
 
-if (!beforeFaq || !afterFaq) {
+if (capabilityStartIndex < 0 || capabilityEndIndex < 0) {
+  throw new Error('Capability section boundaries are missing from the page snapshot.');
+}
+
+const beforeCapabilities = originalPage.slice(0, capabilityStartIndex);
+const afterCapabilities = originalPage.slice(capabilityEndIndex);
+const [betweenCapabilitiesAndFaq, afterFaq] = afterCapabilities.split('<!--FAQ_SLOT-->');
+
+if (!betweenCapabilitiesAndFaq || !afterFaq) {
   throw new Error('FAQ insertion point is missing from the aTalent page snapshot.');
 }
 
@@ -154,7 +169,9 @@ const faqSchema = {
     </style>
   </head>
   <body>
-    <Fragment set:html={beforeFaq} />
+    <Fragment set:html={beforeCapabilities} />
+    <CapabilitiesSection features={capabilitiesPage.features} />
+    <Fragment set:html={betweenCapabilitiesAndFaq} />
     <FAQSection
       label={faqPage.label}
       heading={faqPage.heading}

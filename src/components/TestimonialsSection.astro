@@ -1,0 +1,67 @@
+---
+interface Testimonial {
+  readonly quote: string;
+  readonly name: string;
+  readonly role: string;
+  readonly avatarUrl: string;
+  readonly avatarAlt: string;
+}
+interface Props {
+  heading: string;
+  description: string;
+  aiCtaLabel: string;
+  aiCtaHref: string;
+  testimonials: readonly Testimonial[];
+}
+const { heading, description, aiCtaLabel, aiCtaHref, testimonials } = Astro.props;
+---
+
+<section class="stories-native" aria-labelledby="stories-heading">
+  <div class="stories-container ai-link-row">
+    <a class="stories-button" href={aiCtaHref} target="_blank" rel="noopener noreferrer">{aiCtaLabel}</a>
+  </div>
+  <div class="stories-container stories-intro" data-aos="fade-up" data-aos-delay="50" data-aos-duration="500">
+    <h2 id="stories-heading">{heading}</h2>
+    <p>{description}</p>
+  </div>
+  <div class="stories-container stories-grid">
+    {testimonials.map((item, index) => (
+      <article class="story-card" data-aos="fade-up" data-aos-delay={index * 100} data-aos-offset="100" data-aos-duration="600">
+        <p class="story-quote">{item.quote}</p>
+        <div class="story-person">
+          <img src={item.avatarUrl} alt={item.avatarAlt} loading="lazy" decoding="async" />
+          <div><strong>{item.name}</strong><span>{item.role}</span></div>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .stories-native { background: #fff; color: #1e2022; }
+  .stories-container { width: 100%; max-width: 1236px; margin: 0 auto; padding: 48px 16px; box-sizing: border-box; }
+  .ai-link-row { display: flex; padding-top: 16px; padding-bottom: 16px; justify-content: flex-start; }
+  .stories-button { display: inline-flex; min-width: 64px; align-items: center; justify-content: center; padding: 10px 22px; border-radius: 5px; color: #fff; background: #69306d; box-shadow: 0 12px 15px rgba(140,152,164,.1); text-decoration: none; font: 400 .9375rem/1.75 Inter,sans-serif; transition: background-color 250ms ease, box-shadow 250ms ease; }
+  .stories-button:hover, .stories-button:focus-visible { background: #2f6ad9; box-shadow: 0 10px 40px 10px rgba(140,152,164,.175); }
+  .stories-intro { padding-bottom: 24px; }
+  .stories-intro h2 { margin: 0 0 7px; font: 400 2.0243rem/1.235 Inter,sans-serif; }
+  .stories-intro p { margin: 0; font: 600 1.25rem/1.6 Inter,sans-serif; }
+  .stories-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; padding-top: 0; }
+  .story-card { display: flex; min-width: 0; min-height: 100%; flex-direction: column; align-items: flex-start; overflow: hidden; border: 1px solid rgba(0,0,0,.12); border-radius: 8px; background: #fff; }
+  .story-quote { flex: 1; margin: 0; padding: 16px; color: #677788; font: 400 1rem/1.5 Inter,sans-serif; }
+  .story-person { display: flex; padding: 8px 16px 16px; align-items: center; gap: 16px; }
+  .story-person img { display: block; width: 40px; height: 40px; flex: none; border-radius: 50%; object-fit: cover; }
+  .story-person strong, .story-person span { display: block; color: #677788; font-family: Inter,sans-serif; }
+  .story-person strong { font-size: 1rem; line-height: 1.5; font-weight: 400; }
+  .story-person span { font-size: .875rem; line-height: 1.43; }
+  :global(html[data-theme='dark']) .stories-native { background: #222b45; color: #eeeef0; }
+  :global(html[data-theme='dark']) .story-card { border-color: rgba(255,255,255,.12); background: #2d3748; }
+  :global(html[data-theme='dark']) .story-quote,
+  :global(html[data-theme='dark']) .story-person strong,
+  :global(html[data-theme='dark']) .story-person span { color: #aeb0b4; }
+  :global(html[data-theme='dark']) .stories-button { background: #1976d2; }
+  :global(html[data-theme='dark']) .stories-button:hover,
+  :global(html[data-theme='dark']) .stories-button:focus-visible { background: #0d47a1; }
+  @media (max-width:899px) { .stories-container { max-width:720px; padding-top:32px; padding-bottom:32px; } .ai-link-row { padding-top:16px; padding-bottom:16px; } .stories-grid { grid-template-columns:1fr; padding-top:0; } }
+  @media (max-width:599px) { .stories-container { padding-top:16px; padding-bottom:16px; } .stories-intro h2 { font-size:1.5625rem; } .stories-intro p { font-size:1.125rem; } .stories-button { width:100%; box-sizing:border-box; } .stories-grid { padding-top:0; } }
+</style>

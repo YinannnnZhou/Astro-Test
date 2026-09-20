@@ -37,6 +37,10 @@ const { features } = Astro.props;
   .capability-copy p { margin: 0; color: #1e2022; font-family: Inter, sans-serif; font-size: 16px; line-height: 1.7; }
   .capability-media { display: flex; justify-content: center; padding: 0 16px; }
   .capability-media img { display: block; width: 100%; max-width: 500px; height: auto; }
+  :global(html[data-theme='dark']) .capabilities-native { background:#222b45; color:#eeeef0; }
+  :global(html[data-theme='dark']) .capability-copy h2,
+  :global(html[data-theme='dark']) .capability-copy p { color:#eeeef0; }
+  :global(html[data-theme='dark']) .capability-media img { filter:brightness(.8); }
   @media (max-width: 899px) {
     .capabilities-container { width: min(100% - 32px, 1204px); }
     .capability-row, .capability-row.reverse { grid-template-columns: 1fr; gap: 28px; margin-top: 80px; }

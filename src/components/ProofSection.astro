@@ -1,6 +1,6 @@
 ---
-interface Stat { value: string; description: string; }
-interface Props { heading: string; description: string; ctaLabel: string; ctaHref: string; stats: Stat[]; }
+interface Stat { readonly value: string; readonly description: string; }
+interface Props { heading: string; description: string; ctaLabel: string; ctaHref: string; stats: readonly Stat[]; }
 const { heading, description, ctaLabel, ctaHref, stats } = Astro.props;
 ---
 

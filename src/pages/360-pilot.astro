@@ -406,6 +406,10 @@ const faqSchema = {
         width: max-content;
       }
 
+      .css-1sgw15m.language-layer-open {
+        z-index: 1800;
+      }
+
       .pilot-language-menu {
         position: absolute;
         top: 100%;
@@ -774,8 +778,10 @@ const faqSchema = {
           });
 
           let languageCloseTimer;
+          const languageLayer = languageHolder.closest('.css-1sgw15m');
           const openLanguageMenu = () => {
             window.clearTimeout(languageCloseTimer);
+            languageLayer?.classList.add('language-layer-open');
             languageHolder.classList.add('language-open');
             languageTrigger.setAttribute('aria-expanded', 'true');
           };
@@ -783,6 +789,7 @@ const faqSchema = {
             window.clearTimeout(languageCloseTimer);
             languageCloseTimer = window.setTimeout(() => {
               languageHolder.classList.remove('language-open');
+              languageLayer?.classList.remove('language-layer-open');
               languageTrigger.setAttribute('aria-expanded', 'false');
             }, 150);
           };

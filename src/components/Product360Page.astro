@@ -9,6 +9,7 @@ import ProofSection from './ProofSection.astro';
 import TestimonialsSection from './TestimonialsSection.astro';
 import FinalCta from './FinalCta.astro';
 import SiteFooter from './SiteFooter.astro';
+import AnalyticsRuntime from './AnalyticsRuntime.astro';
 import { createReader } from '@keystatic/core/reader';
 import keystaticConfig from '../../keystatic.config';
 
@@ -67,5 +68,6 @@ const schemas = [organizationSchema,breadcrumbSchema,softwareSchema,productSchem
     </main>
     <SiteFooter copyright={product360.footerCopyright} />
     <MotionRuntime />
+    <AnalyticsRuntime />
   </body>
 </html>

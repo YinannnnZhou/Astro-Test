@@ -80,11 +80,11 @@ const faqSchema = {
       .pilot-nav-menu {
         display: none;
         position: absolute;
-        top: calc(100% + 10px);
+        top: 100%;
         left: 0;
         z-index: 1500;
         min-width: 230px;
-        margin: 0;
+        margin: 4px 0 0;
         padding: 8px 0;
         list-style: none;
         border-top: 3px solid #69306d;
@@ -93,9 +93,44 @@ const faqSchema = {
         box-shadow: 0 16px 36px rgba(30, 32, 34, 0.14);
       }
     
+      .pilot-nav-menu::before {
+        position: absolute;
+        right: 0;
+        bottom: 100%;
+        left: 0;
+        height: 8px;
+        content: '';
+      }
+
       .pilot-nav-holder:hover > .pilot-nav-menu,
-      .pilot-nav-holder:focus-within > .pilot-nav-menu {
+      .pilot-nav-holder:focus-within > .pilot-nav-menu,
+      .pilot-nav-holder.menu-open > .pilot-nav-menu {
         display: block;
+      }
+
+      .pilot-nav-holder:hover > .pilot-nav-menu-products,
+      .pilot-nav-holder:focus-within > .pilot-nav-menu-products,
+      .pilot-nav-holder.menu-open > .pilot-nav-menu-products {
+        display: grid;
+      }
+
+      .pilot-nav-menu-products {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 32px;
+        width: min(600px, calc(100vw - 32px));
+        padding: 24px 16px;
+      }
+
+      .pilot-nav-group {
+        min-width: 0;
+        list-style: none;
+      }
+
+      .pilot-nav-group-title {
+        display: block;
+        padding: 8px 18px 10px;
+        color: #6b7c90;
+        font: 700 1rem/1.4 Inter, sans-serif;
       }
     
       .pilot-nav-menu a {
@@ -107,6 +142,12 @@ const faqSchema = {
         white-space: nowrap;
       }
     
+      .pilot-nav-menu a[aria-current="page"] {
+        color: #69306d;
+        background: rgba(105, 48, 109, 0.10);
+        font-weight: 600;
+      }
+
       .pilot-nav-menu a:hover,
       .pilot-nav-menu a:focus-visible {
         color: #69306d;
@@ -236,14 +277,74 @@ const faqSchema = {
           const menu = document.createElement('ul');
           menu.className = 'pilot-nav-menu';
           menu.setAttribute('aria-label', `${name} menu`);
-          items.forEach(([label, href]) => {
+
+          const appendLink = (parent, label, href) => {
             const item = document.createElement('li');
             const link = document.createElement('a');
             link.href = href;
             link.textContent = label;
+            if (location.pathname.toLowerCase() === href.toLowerCase()) {
+              link.setAttribute('aria-current', 'page');
+            }
             item.appendChild(link);
-            menu.appendChild(item);
+            parent.appendChild(item);
+          };
+
+          if (name === 'products') {
+            menu.classList.add('pilot-nav-menu-products');
+            [
+              ['Performance', items.slice(0, 4)],
+              ['Development', items.slice(4)],
+            ].forEach(([heading, groupItems]) => {
+              const group = document.createElement('li');
+              group.className = 'pilot-nav-group';
+              const title = document.createElement('span');
+              title.className = 'pilot-nav-group-title';
+              title.textContent = heading;
+              group.appendChild(title);
+              const list = document.createElement('ul');
+              list.style.margin = '0';
+              list.style.padding = '0';
+              list.style.listStyle = 'none';
+              groupItems.forEach(([label, href]) => appendLink(list, label, href));
+              group.appendChild(list);
+              menu.appendChild(group);
+            });
+          } else {
+            items.forEach(([label, href]) => appendLink(menu, label, href));
+          }
+
+          let closeTimer;
+          const openMenu = () => {
+            window.clearTimeout(closeTimer);
+            holder.classList.add('menu-open');
+            trigger.setAttribute('aria-expanded', 'true');
+          };
+          const closeMenu = () => {
+            window.clearTimeout(closeTimer);
+            closeTimer = window.setTimeout(() => {
+              holder.classList.remove('menu-open');
+              trigger.setAttribute('aria-expanded', 'false');
+            }, 150);
+          };
+
+          trigger.setAttribute('aria-expanded', 'false');
+          trigger.addEventListener('mouseenter', openMenu);
+          holder.addEventListener('mouseenter', openMenu);
+          holder.addEventListener('mouseleave', closeMenu);
+          trigger.addEventListener('click', (event) => {
+            event.preventDefault();
+            holder.classList.contains('menu-open') ? closeMenu() : openMenu();
           });
+          trigger.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              openMenu();
+              menu.querySelector('a')?.focus();
+            }
+            if (event.key === 'Escape') closeMenu();
+          });
+
           holder.appendChild(menu);
         });
 

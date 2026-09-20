@@ -26,7 +26,7 @@ const company = {
       <ul class="dropdown language-menu" data-menu role="menu">
         <li><a href="/products/360-feedback" aria-current="page">English</a></li>
         <li><a href="https://www.atalent.cn/products/360-feedback">简体中文</a></li>
-        <li><a href="/zh-hk/products/360-feedback">繁體中文</a></li>
+        <li><a href="https://www.atalent.com/zh-hk/products/360-feedback">繁體中文</a></li>
       </ul>
     </div>
     <button class="theme-trigger" type="button" aria-label="Dark mode toggler" aria-pressed="false">
@@ -104,7 +104,7 @@ const company = {
 
 <style>
   .native-top{position:relative;z-index:1250;background:transparent}.top-inner{display:flex;width:100%;max-width:1236px;margin:auto;padding:8px 16px 0;box-sizing:border-box;align-items:center;justify-content:flex-end;gap:8px}
-  .icon-trigger,.theme-trigger,.nav-trigger,.mobile-trigger{font:inherit}.language-control{display:flex;height:30px;align-items:center}.icon-trigger,.theme-trigger{display:inline-flex;height:30px;min-width:auto;box-sizing:border-box;align-items:center;justify-content:center;border:1px solid rgba(0,0,0,.2);border-radius:8px;background:transparent;cursor:pointer}.icon-trigger{border:0;padding:3px 0}.icon-trigger svg:first-child{display:block;width:24px;height:24px}.icon-trigger .chevron{display:block;width:16px;height:16px}.theme-trigger{padding:4px;color:#69306d}.theme-trigger svg{display:block;width:20px;height:20px}
+  .icon-trigger,.theme-trigger,.nav-trigger,.mobile-trigger{font:inherit}.language-control{display:flex;height:30px;align-items:center}.icon-trigger,.theme-trigger{display:inline-flex;height:30px;min-width:auto;box-sizing:border-box;align-items:center;justify-content:center;border:1px solid rgba(0,0,0,.2);border-radius:8px;background:transparent;cursor:pointer}.icon-trigger{border:0;padding:3px 0;color:#1e2022}.icon-trigger svg{fill:currentColor}.icon-trigger svg:first-child{display:block;width:24px;height:24px}.icon-trigger .chevron{display:block;width:16px;height:16px}.theme-trigger{padding:4px;color:#69306d}.theme-trigger svg{display:block;width:20px;height:20px}
   .native-header{position:sticky;top:0;z-index:1200;width:100%;background:transparent;transition:background-color 220ms ease,box-shadow 220ms ease,backdrop-filter 220ms ease}.native-header.scrolled{background:rgba(255,255,255,.96);box-shadow:0 8px 24px rgba(30,32,34,.10);backdrop-filter:blur(12px)}
   .header-inner{position:relative;display:flex;width:min(1236px,100%);min-height:72px;margin:auto;padding:8px 16px;align-items:center}.native-logo{display:block;width:160px;margin-right:auto}.native-logo img{display:block;width:100%;height:auto}.desktop-nav{display:flex;align-items:center;gap:32px}.nav-link,.nav-trigger{border:0;background:transparent;color:#1e2022;font-size:16px;text-decoration:none;cursor:pointer}.nav-trigger{display:inline-flex;padding:8px 0;align-items:center;gap:4px}.nav-chevron{width:20px;height:20px;flex:none;fill:currentColor;transition:transform 180ms ease}.menu-holder.open>.nav-trigger .nav-chevron{transform:rotate(180deg)}.demo-button{display:inline-flex;min-width:160px;height:48px;padding:0 20px;align-items:center;justify-content:center;border-radius:5px;background:#69306d;color:#fff!important;font-size:16px;font-weight:500;text-decoration:none;transition:background-color 250ms ease,box-shadow 250ms ease}.demo-button:hover{background:#2f6ad9;box-shadow:0 6px 16px rgba(47,106,217,.28)}
   .menu-holder{position:relative}.dropdown{position:absolute;top:100%;left:50%;z-index:1800;margin-top:4px;padding:16px;border-top:3px solid #69306d;border-radius:0 0 8px 8px;background:#fff;box-shadow:0 8px 24px rgba(30,32,34,.16);visibility:hidden;opacity:0;pointer-events:none;transform:translate(-50%,-8px) scale(.98);transform-origin:top center;transition:opacity 180ms ease,transform 180ms ease,visibility 180ms}.dropdown:before{position:absolute;right:0;bottom:100%;left:0;height:8px;content:""}.menu-holder.open .dropdown{visibility:visible;opacity:1;pointer-events:auto;transform:translate(-50%,0) scale(1)}.menu-holder.closing .dropdown{visibility:visible;opacity:0;transform:translate(-50%,0) scale(1)}
@@ -112,6 +112,7 @@ const company = {
   .language-menu{width:max-content;min-width:120px;margin-top:16px;padding:8px;list-style:none}.language-menu>li{margin:0;padding:0;list-style:none}.language-menu:before{height:20px}
   .mobile-trigger,.mobile-panel{display:none}
   :global(html[data-theme=dark]) .native-header.scrolled{background:rgba(34,43,69,.96);box-shadow:0 8px 24px rgba(0,0,0,.22)}
+  :global(html[data-theme=dark]) .icon-trigger{color:#eeeef0}
   :global(html[data-theme=dark]) .nav-link,:global(html[data-theme=dark]) .nav-trigger{color:#eeeef0}
   :global(html[data-theme=dark]) .dropdown{border-top-color:#1976d2;background:#222b45}
   :global(html[data-theme=dark]) .dropdown a{color:#eeeef0}:global(html[data-theme=dark]) .dropdown h3{color:#aeb0b4}:global(html[data-theme=dark]) .dropdown a:hover,:global(html[data-theme=dark]) .dropdown a[aria-current=page]{color:#1976d2;background:rgba(25,118,210,.1)}

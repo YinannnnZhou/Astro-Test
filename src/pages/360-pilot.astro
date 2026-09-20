@@ -398,6 +398,89 @@ const faqSchema = {
       .css-ijq4xa {
         position: relative;
       }
+
+      .pilot-language-holder {
+        position: relative;
+      }
+
+      .pilot-language-menu {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        z-index: 1700;
+        display: block;
+        min-width: 120px;
+        margin-top: 16px;
+        padding: 8px;
+        border-top: 3px solid #69306d;
+        border-radius: 0 0 8px 8px;
+        background: #fff;
+        box-shadow: 0 8px 24px rgba(30, 32, 34, 0.16);
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+        transform: translate(-50%, -8px) scale(0.98);
+        transform-origin: top center;
+        transition: opacity 180ms ease, transform 180ms ease, visibility 180ms;
+        list-style: none;
+      }
+
+      .pilot-language-menu::before {
+        position: absolute;
+        right: 0;
+        bottom: 100%;
+        left: 0;
+        height: 20px;
+        content: '';
+      }
+
+      .pilot-language-holder:hover .pilot-language-menu,
+      .pilot-language-holder:focus-within .pilot-language-menu,
+      .pilot-language-holder.language-open .pilot-language-menu {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, 0) scale(1);
+      }
+
+      .pilot-language-menu a {
+        display: block;
+        padding: 8px;
+        border-radius: 8px;
+        color: #1e2022;
+        font: 400 0.875rem/1.43 Inter, sans-serif;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .pilot-language-menu a:hover,
+      .pilot-language-menu a:focus-visible {
+        color: #69306d;
+        background: rgba(105, 48, 109, 0.10);
+        outline: none;
+      }
+
+      .pilot-language-menu a[aria-current='true'] {
+        color: #69306d;
+        background: rgba(105, 48, 109, 0.10);
+        font-weight: 600;
+      }
+
+      html[data-theme='dark'] .pilot-language-menu {
+        border-top-color: #1976d2;
+        background: #222b45;
+      }
+
+      html[data-theme='dark'] .pilot-language-menu a {
+        color: #eeeef0;
+      }
+
+      html[data-theme='dark'] .pilot-language-menu a:hover,
+      html[data-theme='dark'] .pilot-language-menu a:focus-visible,
+      html[data-theme='dark'] .pilot-language-menu a[aria-current='true'] {
+        color: #1976d2;
+        background: rgba(25, 118, 210, 0.10);
+      }
     
       .pilot-mobile-menu {
         position: absolute;
@@ -644,7 +727,80 @@ const faqSchema = {
           holder.appendChild(menu);
         });
 
-        const mobileButton = document.querySelector('button[aria-label="Menu"]');
+        const languageTrigger = document.querySelector('[aria-describedby="language-menu"]');
+        const languageHolder = languageTrigger?.parentElement;
+        if (languageTrigger && languageHolder && !languageHolder.querySelector('.pilot-language-menu')) {
+          languageHolder.classList.add('pilot-language-holder');
+          languageTrigger.setAttribute('aria-haspopup', 'menu');
+          languageTrigger.setAttribute('aria-expanded', 'false');
+
+          const languageMenu = document.createElement('ul');
+          languageMenu.className = 'pilot-language-menu';
+          languageMenu.setAttribute('role', 'menu');
+          languageMenu.setAttribute('aria-label', 'Choose language');
+
+          [
+            ['English', '/products/360-feedback', true],
+            ['简体中文', 'https://www.atalent.cn/products/360-feedback', false],
+            ['繁體中文', '/zh-hk/products/360-feedback', false],
+          ].forEach(([label, href, current]) => {
+            const item = document.createElement('li');
+            item.setAttribute('role', 'none');
+            const link = document.createElement('a');
+            link.href = href;
+            link.textContent = label;
+            link.setAttribute('role', 'menuitem');
+            if (current) link.setAttribute('aria-current', 'true');
+            if (href.startsWith('http')) {
+              link.addEventListener('click', () => {
+                localStorage.setItem('lastLang', 'zh-cn');
+                sessionStorage.setItem('lastLang', 'zh-cn');
+              });
+            } else {
+              link.addEventListener('click', () => {
+                const slug = href.startsWith('/zh-hk') ? 'zh-hk' : 'en';
+                localStorage.setItem('lastLang', slug);
+                sessionStorage.setItem('lastLang', slug);
+              });
+            }
+            item.appendChild(link);
+            languageMenu.appendChild(item);
+          });
+
+          let languageCloseTimer;
+          const openLanguageMenu = () => {
+            window.clearTimeout(languageCloseTimer);
+            languageHolder.classList.add('language-open');
+            languageTrigger.setAttribute('aria-expanded', 'true');
+          };
+          const closeLanguageMenu = () => {
+            window.clearTimeout(languageCloseTimer);
+            languageCloseTimer = window.setTimeout(() => {
+              languageHolder.classList.remove('language-open');
+              languageTrigger.setAttribute('aria-expanded', 'false');
+            }, 150);
+          };
+
+          languageTrigger.addEventListener('mouseenter', openLanguageMenu);
+          languageHolder.addEventListener('mouseenter', openLanguageMenu);
+          languageHolder.addEventListener('mouseleave', closeLanguageMenu);
+          languageTrigger.addEventListener('click', (event) => {
+            event.preventDefault();
+            languageHolder.classList.contains('language-open') ? closeLanguageMenu() : openLanguageMenu();
+          });
+          languageTrigger.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              openLanguageMenu();
+              languageMenu.querySelector('a')?.focus();
+            }
+            if (event.key === 'Escape') closeLanguageMenu();
+          });
+
+          languageHolder.appendChild(languageMenu);
+        }
+
+                const mobileButton = document.querySelector('button[aria-label="Menu"]');
         const mobileHolder = mobileButton?.closest('.css-ijq4xa');
         if (mobileButton && mobileHolder && !mobileHolder.querySelector('.pilot-mobile-menu')) {
           const panel = document.createElement('div');

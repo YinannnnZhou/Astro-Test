@@ -1,0 +1,27 @@
+{
+  "requiredOrigins": [
+    {
+      "id": "ASTRO_360_S3_ORIGIN",
+      "type": "private-s3-with-oac",
+      "description": "Dedicated private S3 origin containing only the Astro 360 release"
+    }
+  ],
+  "requiredBehaviors": [
+    {
+      "pathPattern": "/products/360-feedback*",
+      "targetOriginId": "ASTRO_360_S3_ORIGIN",
+      "viewerProtocolPolicy": "redirect-to-https",
+      "allowedMethods": ["GET", "HEAD", "OPTIONS"],
+      "compress": true,
+      "functionRequirement": "Rewrite /products/360-feedback to /products/360-feedback/index.html"
+    },
+    {
+      "pathPattern": "/astro-360-assets/*",
+      "targetOriginId": "ASTRO_360_S3_ORIGIN",
+      "viewerProtocolPolicy": "redirect-to-https",
+      "allowedMethods": ["GET", "HEAD", "OPTIONS"],
+      "compress": true
+    }
+  ],
+  "rollback": "Disable or remove only these two behaviors, restore the previous distribution config, then invalidate /products/360-feedback* and /astro-360-assets/*"
+}

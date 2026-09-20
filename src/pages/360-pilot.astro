@@ -1,6 +1,7 @@
 ---
 import FAQSection from '../components/FAQSection.astro';
 import CapabilitiesSection from '../components/CapabilitiesSection.astro';
+import Hero360 from '../components/Hero360.astro';
 import Smart360 from '../components/Smart360.astro';
 import MotionRuntime from '../components/MotionRuntime.astro';
 import { createReader } from '@keystatic/core/reader';
@@ -9,28 +10,34 @@ import originalPage from '../snapshots/atalent-360.html?raw';
 import originalStyles from '../styles/atalent-original.css?raw';
 
 const reader = createReader(process.cwd(), keystaticConfig);
-const [faqPage, capabilitiesPage, smart360] = await Promise.all([
+const [faqPage, capabilitiesPage, smart360, product360] = await Promise.all([
   reader.singletons.faqPage.read(),
   reader.singletons.capabilities360.read(),
   reader.singletons.smart360.read(),
+  reader.singletons.product360.read(),
 ]);
 
-if (!faqPage || !capabilitiesPage || !smart360) {
+if (!faqPage || !capabilitiesPage || !smart360 || !product360) {
   throw new Error('360 page content is missing.');
 }
 
+const heroStart = '<div class="MuiBox-root css-79elbk">';
+const powerStart = '<div class="MuiBox-root css-0"><div class="MuiBox-root css-18033jt "><div class="MuiBox-root css-1tt9l8n">';
 const capabilityStart = '<div class="MuiBox-root css-0"><div class="MuiBox-root css-18033jt"><div class="MuiBox-root css-ib9iq6">';
 const capabilityEnd = '<div class="MuiBox-root css-0"><div class="MuiBox-root css-18033jt"><div class="MuiBox-root css-touz9j ">';
 const smartEnd = '<div class="MuiBox-root css-0"><div class="MuiBox-root css-18033jt"><div class="MuiBox-root css-0"><div class="MuiBox-root css-d32wgk">';
+const heroStartIndex = originalPage.indexOf(heroStart);
+const powerStartIndex = originalPage.indexOf(powerStart, heroStartIndex);
 const capabilityStartIndex = originalPage.indexOf(capabilityStart);
 const capabilityEndIndex = originalPage.indexOf(capabilityEnd, capabilityStartIndex);
 const smartEndIndex = originalPage.indexOf(smartEnd, capabilityEndIndex);
 
-if (capabilityStartIndex < 0 || capabilityEndIndex < 0 || smartEndIndex < 0) {
+if (heroStartIndex < 0 || powerStartIndex < 0 || capabilityStartIndex < 0 || capabilityEndIndex < 0 || smartEndIndex < 0) {
   throw new Error('Capability section boundaries are missing from the page snapshot.');
 }
 
-const beforeCapabilities = originalPage.slice(0, capabilityStartIndex);
+const beforeHero = originalPage.slice(0, heroStartIndex);
+const betweenHeroAndCapabilities = originalPage.slice(powerStartIndex, capabilityStartIndex);
 const afterSmart = originalPage.slice(smartEndIndex);
 const [betweenSmartAndFaq, afterFaq] = afterSmart.split('<!--FAQ_SLOT-->');
 
@@ -559,7 +566,9 @@ const faqSchema = {
     </style>
   </head>
   <body>
-    <Fragment set:html={beforeCapabilities} />
+    <Fragment set:html={beforeHero} />
+    <Hero360 title={product360.title} description={product360.description} imageUrl={product360.heroImageUrl} imageAlt={product360.heroImageAlt} />
+    <Fragment set:html={betweenHeroAndCapabilities} />
     <CapabilitiesSection features={capabilitiesPage.features} />
     <Smart360 title={smart360.title} intro={smart360.intro} featureList={smart360.featureList} slides={smart360.slides} />
     <Fragment set:html={betweenSmartAndFaq} />

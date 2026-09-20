@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "astro dev",
     "build": "SKIP_KEYSTATIC=true astro build",
-    "preview": "astro preview"
+    "check": "astro check",
+    "preview": "astro preview",
+    "release:360": "npm run check && npm run build && node scripts/prepare-360-release.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.6",

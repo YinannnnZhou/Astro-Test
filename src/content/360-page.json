@@ -12,5 +12,13 @@
   "metaTitle": "Enterprise 360° Feedback Platform | aTalent",
   "metaDescription": "Run configurable, multilingual 360-degree feedback programmes for large organisations, with governed workflows, secure reporting and AI-assisted analysis.",
   "heroImageUrl": "https://assets.atalent.com/uploads/360_1_1_c47101d3f4.png",
-  "heroImageAlt": "aTalent 360 Feedback product overview"
+  "heroImageAlt": "aTalent 360 Feedback product overview",
+  "proofHeading": "The Power of Comprehensive Feedback",
+  "proofDescription": "Invest in comprehensive feedback and transform your talent management strategy.",
+  "proofCtaLabel": "Schedule a Demo",
+  "proofStats": [
+    { "value": "34%", "description": "Studies show that enhanced self-awareness results in employees feeling 34% more valued and motivated." },
+    { "value": "12%", "description": "Organizations using 360° feedback see a 12% performance boost, with 80% reporting improved leadership skills." },
+    { "value": "20%", "description": "Multi-source feedback boosts employee engagement by 20%, leading to higher retention rates." }
+  ]
 }

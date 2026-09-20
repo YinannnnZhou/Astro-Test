@@ -26,6 +26,13 @@ export default config({
         description: fields.text({ label: 'Hero description', multiline: true }),
         heroImageUrl: fields.text({ label: 'Hero image URL', validation: { isRequired: true } }),
         heroImageAlt: fields.text({ label: 'Hero image alt text', validation: { isRequired: true } }),
+        proofHeading: fields.text({ label: 'Proof section heading', validation: { isRequired: true } }),
+        proofDescription: fields.text({ label: 'Proof section description', validation: { isRequired: true } }),
+        proofCtaLabel: fields.text({ label: 'Proof section CTA', validation: { isRequired: true } }),
+        proofStats: fields.array(fields.object({
+          value: fields.text({ label: 'Statistic', validation: { isRequired: true } }),
+          description: fields.text({ label: 'Explanation', multiline: true, validation: { isRequired: true } }),
+        }), { label: 'Proof statistics', itemLabel: (props) => props.fields.value.value || 'New statistic' }),
         primaryCta: fields.text({ label: 'Primary CTA' }),
         secondaryCta: fields.text({ label: 'Secondary CTA' }),
         aiLabel: fields.text({ label: 'AI section label' }),

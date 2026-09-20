@@ -1,0 +1,39 @@
+{
+  "features": [
+    {
+      "title": "Capture Holistic Perspectives with Multi-Rater Feedback",
+      "description": "Gain a 360-Degree View. By gathering feedback from multiple sources, including peers, managers, and subordinates, aTalent's 360° Feedback module provides a comprehensive understanding of employee performance, ensuring no perspective is missed.",
+      "imageUrl": "https://assets.atalent.com/uploads/360_USP_1_97c05de48a_c8f06df727.png",
+      "imageAlt": "aTalent multi-rater 360 feedback interface",
+      "reverse": false
+    },
+    {
+      "title": "Launch 360° Feedback Anytime, Anywhere for Any Role to Drive Continuous Improvement",
+      "description": "Empower Continuous Growth. Enable employees and managers to initiate feedback cycles at any time, from any location, fostering a culture of continuous improvement and development for all roles within the organization.",
+      "imageUrl": "https://assets.atalent.com/uploads/360_USP_2_565f41f72a.png",
+      "imageAlt": "aTalent 360 feedback programme setup",
+      "reverse": true
+    },
+    {
+      "title": "Uncover Hidden Patterns with AI-Powered Developmental & Emotional Insights",
+      "description": "Harness the Power of AI. Leverage AI sentiment analysis to identify emotions in feedback, providing instant guidance and interpretation. Personalized reports highlight gaps between self-assessment and peer feedback, strengths, and areas for improvement, leading to deeper insights and actionable strategies.",
+      "imageUrl": "https://assets.atalent.com/uploads/360_USP_3_20ee94fff0.png",
+      "imageAlt": "aTalent AI-powered 360 feedback insights",
+      "reverse": false
+    },
+    {
+      "title": "Accelerate Leadership Development at Scale with Actionable Insights",
+      "description": "Develop Leaders Effectively. Identify and nurture leadership potential across your organization with actionable insights derived from comprehensive feedback, enabling targeted development plans and accelerated career growth.",
+      "imageUrl": "https://assets.atalent.com/uploads/360_USP_4_c137d9e542.png",
+      "imageAlt": "aTalent leadership development insights",
+      "reverse": true
+    },
+    {
+      "title": "Integrate Seamlessly with Your Talent Ecosystems",
+      "description": "Seamless Integration. Integrate aTalent's 360° Feedback module with your existing HR systems for a streamlined and cohesive talent management experience, ensuring data flows smoothly and processes are efficient.",
+      "imageUrl": "https://assets.atalent.com/uploads/360_USP_5_efaff1da98.png",
+      "imageAlt": "aTalent talent ecosystem integration",
+      "reverse": false
+    }
+  ]
+}

@@ -124,6 +124,13 @@ const faqSchema = {
         transform: translate(-50%, 0) scale(1);
       }
 
+      .pilot-nav-holder.menu-closing > .pilot-nav-menu {
+        visibility: visible;
+        opacity: 0;
+        pointer-events: none;
+        transform: translate(-50%, 0) scale(1);
+      }
+
       .pilot-nav-menu-products {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -450,6 +457,13 @@ const faqSchema = {
         transform: translate(-50%, 0) scale(1);
       }
 
+      .pilot-language-holder.language-closing .pilot-language-menu {
+        visibility: visible;
+        opacity: 0;
+        pointer-events: none;
+        transform: translate(-50%, 0) scale(1);
+      }
+
       .pilot-language-menu a {
         display: block;
         padding: 8px;
@@ -701,16 +715,22 @@ const faqSchema = {
           }
 
           let closeTimer;
+          let fadeTimer;
           const openMenu = () => {
             window.clearTimeout(closeTimer);
+            window.clearTimeout(fadeTimer);
+            holder.classList.remove('menu-closing');
             holder.classList.add('menu-open');
             trigger.setAttribute('aria-expanded', 'true');
           };
           const closeMenu = () => {
             window.clearTimeout(closeTimer);
+            window.clearTimeout(fadeTimer);
             closeTimer = window.setTimeout(() => {
+              holder.classList.add('menu-closing');
               holder.classList.remove('menu-open');
               trigger.setAttribute('aria-expanded', 'false');
+              fadeTimer = window.setTimeout(() => holder.classList.remove('menu-closing'), 190);
             }, 150);
           };
 
@@ -778,19 +798,27 @@ const faqSchema = {
           });
 
           let languageCloseTimer;
+          let languageFadeTimer;
           const languageLayer = languageHolder.closest('.css-1sgw15m');
           const openLanguageMenu = () => {
             window.clearTimeout(languageCloseTimer);
+            window.clearTimeout(languageFadeTimer);
+            languageHolder.classList.remove('language-closing');
             languageLayer?.classList.add('language-layer-open');
             languageHolder.classList.add('language-open');
             languageTrigger.setAttribute('aria-expanded', 'true');
           };
           const closeLanguageMenu = () => {
             window.clearTimeout(languageCloseTimer);
+            window.clearTimeout(languageFadeTimer);
             languageCloseTimer = window.setTimeout(() => {
+              languageHolder.classList.add('language-closing');
               languageHolder.classList.remove('language-open');
-              languageLayer?.classList.remove('language-layer-open');
               languageTrigger.setAttribute('aria-expanded', 'false');
+              languageFadeTimer = window.setTimeout(() => {
+                languageHolder.classList.remove('language-closing');
+                languageLayer?.classList.remove('language-layer-open');
+              }, 190);
             }, 150);
           };
 

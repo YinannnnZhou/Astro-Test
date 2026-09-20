@@ -1,0 +1,76 @@
+---
+type Slide = { imageUrl: string; imageAlt: string; title: string; description: string };
+interface Props {
+  title: string; intro: string; featureList: string; slides: readonly Slide[];
+}
+const { title, intro, featureList, slides } = Astro.props;
+---
+
+<section class="smart360" data-aos="fade-up" aria-labelledby="smart360-title">
+  <div class="smart-grid">
+    <div class="smart-slider" data-smart-slider>
+      <div class="smart-viewport" aria-live="polite">
+        {slides.map((slide, index) => (
+          <article class:list={['smart-slide', { active: index === 0 }]} data-slide={index} aria-hidden={index === 0 ? 'false' : 'true'}>
+            <img src={slide.imageUrl} alt={slide.imageAlt} loading="lazy" />
+            <div class="smart-dots" aria-label="Smart 360 slides">
+              {slides.map((_, dotIndex) => (
+                <button type="button" data-dot={dotIndex} class:list={{ active: dotIndex === index }} aria-label={`Show slide ${dotIndex + 1}`}></button>
+              ))}
+            </div>
+            <div class="slide-copy"><h3>{slide.title}</h3><p>{slide.description}</p></div>
+          </article>
+        ))}
+      </div>
+    </div>
+    <aside class="smart-aside">
+      <div><h2 id="smart360-title">{title}</h2><p>{intro}</p></div>
+      <div class="smart-card"><p>{featureList}</p></div>
+    </aside>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-smart-slider]').forEach((slider) => {
+    const slides = [...slider.querySelectorAll<HTMLElement>('[data-slide]')];
+    let active = 0;
+    let timer: number | undefined;
+    const render = (next: number) => {
+      active = (next + slides.length) % slides.length;
+      slides.forEach((slide, index) => {
+        const shown = index === active;
+        slide.classList.toggle('active', shown);
+        slide.setAttribute('aria-hidden', String(!shown));
+        slide.querySelectorAll<HTMLButtonElement>('[data-dot]').forEach((dot) => {
+          const selected = Number(dot.dataset.dot) === active;
+          dot.classList.toggle('active', selected);
+          dot.setAttribute('aria-current', selected ? 'true' : 'false');
+        });
+      });
+    };
+    const start = () => { window.clearInterval(timer); timer = window.setInterval(() => render(active + 1), 3000); };
+    slider.addEventListener('mouseenter', () => window.clearInterval(timer));
+    slider.addEventListener('mouseleave', start);
+    slider.addEventListener('focusin', () => window.clearInterval(timer));
+    slider.addEventListener('focusout', start);
+    slider.addEventListener('click', (event) => {
+      const target = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-dot]');
+      if (!target) return;
+      render(Number(target.dataset.dot));
+      start();
+    });
+    render(0);
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && slides.length > 1) start();
+  });
+</script>
+
+<style>
+  .smart360{width:min(1204px,calc(100% - 48px));margin:0 auto;padding:32px;border-radius:8px;background:#e8f5fd;color:#1e2022;font-family:Inter,sans-serif}
+  .smart-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(260px,1fr);gap:32px}
+  .smart-viewport{position:relative;min-height:540px}.smart-slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;visibility:hidden;opacity:0;transition:opacity 300ms ease}.smart-slide.active{position:relative;visibility:visible;opacity:1}
+  .smart-slide img{display:block;width:100%;height:400px;border-radius:8px;object-fit:cover}.smart-dots{display:flex;justify-content:center;gap:7px;width:100%;padding:24px 0 14px}.smart-dots button{width:11px;height:11px;padding:0;border:0;border-radius:50%;background:#858585;cursor:pointer}.smart-dots button.active{background:#69306d}
+  .slide-copy{text-align:center}.slide-copy h3{margin:0 0 14px;font-size:20px;line-height:1.4}.slide-copy p{max-width:600px;margin:0 auto;font-size:16px;line-height:1.6}
+  .smart-aside{display:flex;flex-direction:column;justify-content:space-between}.smart-aside h2{margin:0 0 18px;font-size:36px;line-height:1.25;font-weight:700}.smart-aside>div>p{margin:0;color:#6c7f91;font-size:16px;line-height:1.6}.smart-card{margin-top:20px;padding:32px;border-radius:8px;background:#fff;box-shadow:0 3px 6px rgba(140,152,164,.25)}.smart-card p{margin:0;white-space:pre-line;line-height:1.8}
+  @media(max-width:899px){.smart360{width:min(100% - 32px,1204px);padding:16px}.smart-grid{display:flex;flex-direction:column-reverse;gap:24px}.smart-slide img{height:300px}.smart-viewport{min-height:450px}.smart-aside h2{font-size:30px}}
+  @media(prefers-reduced-motion:reduce){.smart-slide{transition:none}}
+</style>

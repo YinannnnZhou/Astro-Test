@@ -392,6 +392,10 @@ const faqSchema = {
             const link = document.createElement('a');
             link.href = href;
             link.textContent = label;
+            if (href.startsWith('http')) {
+              link.target = '_blank';
+              link.rel = 'noopener noreferrer';
+            }
             const currentPath = location.pathname.toLowerCase().replace(/\/$/, '');
             const targetPath = href.toLowerCase().replace(/\/$/, '');
             const isPilot360 = currentPath === '/360-pilot' && targetPath === '/products/360-feedback';

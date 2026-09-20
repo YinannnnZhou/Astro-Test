@@ -1,21 +1,9 @@
 <script is:inline>
   (() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const candidates = new Set([
-      ...document.querySelectorAll('[data-aos]'),
-      ...document.querySelectorAll('[data-aos-delay]'),
-      ...document.querySelectorAll('.css-touz9j'),
-      ...document.querySelectorAll('.css-1tt9l8n'),
-      ...document.querySelectorAll('.css-7kloc2'),
-      ...document.querySelectorAll('.css-18khqig'),
-      ...document.querySelectorAll('.css-o1syl8'),
-      ...document.querySelectorAll('.faq-pilot'),
-    ]);
+    const candidates = new Set(document.querySelectorAll('[data-aos]'));
     candidates.forEach((element) => {
       if (!(element instanceof HTMLElement)) return;
-      if (!element.hasAttribute('data-aos')) {
-        element.setAttribute('data-aos', element.classList.contains('css-fxw5vl') ? 'fade-right' : 'fade-up');
-      }
       element.style.setProperty('--aos-delay', Number(element.getAttribute('data-aos-delay') || 50) + 'ms');
       element.style.setProperty('--aos-duration', Number(element.getAttribute('data-aos-duration') || 500) + 'ms');
     });

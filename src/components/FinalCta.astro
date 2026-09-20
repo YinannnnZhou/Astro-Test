@@ -1,0 +1,30 @@
+---
+interface Props { heading: string; description: string; ctaLabel: string; ctaHref: string; }
+const { heading, description, ctaLabel, ctaHref } = Astro.props;
+---
+
+<section class="final-cta" aria-labelledby="final-cta-heading">
+  <div class="final-cta-inner" data-aos="fade-up" data-aos-delay="50" data-aos-duration="500">
+    <h2 id="final-cta-heading">{heading}</h2>
+    <p>{description}</p>
+    <a href={ctaHref}>{ctaLabel}</a>
+  </div>
+</section>
+<div class="footer-divider" aria-hidden="true"></div>
+
+<style>
+  .final-cta { background:#fff; color:#1e2022; }
+  .final-cta-inner { display:flex; width:100%; max-width:1236px; margin:0 auto; padding:48px 16px; box-sizing:border-box; flex-direction:column; align-content:flex-start; gap:4px; }
+  .final-cta h2 { margin:0 0 7px; font:400 2.0243rem/1.235 Inter,sans-serif; }
+  .final-cta p { margin:0 0 7px; font:600 1.25rem/1.6 Inter,sans-serif; }
+  .final-cta a { display:inline-flex; width:max-content; min-width:64px; margin-top:4px; align-items:center; justify-content:center; padding:10px 22px; border-radius:5px; color:#fff; background:#69306d; box-shadow:0 12px 15px rgba(140,152,164,.1); text-decoration:none; font:400 .9375rem/1.75 Inter,sans-serif; transition:background-color 250ms ease,box-shadow 250ms ease; }
+  .final-cta a:hover,.final-cta a:focus-visible { background:#2f6ad9; box-shadow:0 10px 40px 10px rgba(140,152,164,.175); }
+  .footer-divider { width:100%; padding:16px 0; border-bottom:1px solid rgba(0,0,0,.12); background:transparent; box-sizing:border-box; }
+  :global(html[data-theme='dark']) .final-cta { background:#222b45; color:#eeeef0; }
+  :global(html[data-theme='dark']) .final-cta a { background:#1976d2; }
+  :global(html[data-theme='dark']) .final-cta a:hover,
+  :global(html[data-theme='dark']) .final-cta a:focus-visible { background:#0d47a1; }
+  :global(html[data-theme='dark']) .footer-divider { border-color:rgba(255,255,255,.12); }
+  @media(max-width:899px){.final-cta-inner{max-width:720px;padding-top:32px;padding-bottom:32px}}
+  @media(max-width:599px){.final-cta-inner{padding-top:16px;padding-bottom:16px}.final-cta h2{font-size:1.5625rem}.final-cta p{font-size:1.125rem}.final-cta a{width:100%;box-sizing:border-box}}
+</style>

@@ -49,10 +49,262 @@ const faqSchema = {
       faqs={faqPage.faqs}
     />
     <Fragment set:html={afterFaq} />
+
+    <script is:inline>
+      (() => {
+        const header = document.querySelector('header.css-ibyuam');
+        const setHeaderState = () => {
+          header?.classList.toggle('pilot-nav-scrolled', window.scrollY > 12);
+        };
+        setHeaderState();
+        window.addEventListener('scroll', setHeaderState, { passive: true });
+
+        const menus = {
+          products: [
+            ['OKR', '/products/OKR'],
+            ['KPI', '/products/KPI'],
+            ['360° Feedback', '/products/360-feedback'],
+            ['Talent Review', '/products/talent-review'],
+            ['Talent Pool', '/products/talent-pool'],
+            ['Skill', '/products/skill'],
+            ['IDP', '/products/IDP'],
+            ['Succession', '/products/succession'],
+            ['Learn', '/partner/docebo'],
+            ['Talent Marketplace', '/products/talent-marketplace'],
+          ],
+          solutions: [['Customer Stories', '/customer-stories']],
+          company: [
+            ['About aTalent', '/about-us'],
+            ['Docebo', '/partner/docebo'],
+            ['Cornerstone OnDemand', '/partner/cornerstone-ondemand'],
+            ['LinkedIn', '/partner/LinkedIn'],
+            ['AWS', '/partner/AWS'],
+            ['Blog', '/resources/blog'],
+            ['News', '/resources/news'],
+            ['Security & Compliance', '/security-compliance'],
+          ],
+        };
+
+        Object.entries(menus).forEach(([name, items]) => {
+          const trigger = document.querySelector(`[aria-describedby="${name}"], [aria-describedby="${name[0].toUpperCase() + name.slice(1)}"]`);
+          const holder = trigger?.closest('.css-0');
+          if (!trigger || !holder || holder.querySelector('.pilot-nav-menu')) return;
+
+          holder.classList.add('pilot-nav-holder');
+          trigger.setAttribute('role', 'button');
+          trigger.setAttribute('tabindex', '0');
+          trigger.setAttribute('aria-haspopup', 'true');
+
+          const menu = document.createElement('ul');
+          menu.className = 'pilot-nav-menu';
+          menu.setAttribute('aria-label', `${name} menu`);
+          items.forEach(([label, href]) => {
+            const item = document.createElement('li');
+            const link = document.createElement('a');
+            link.href = href;
+            link.textContent = label;
+            item.appendChild(link);
+            menu.appendChild(item);
+          });
+          holder.appendChild(menu);
+        });
+
+        const mobileButton = document.querySelector('button[aria-label="Menu"]');
+        const mobileHolder = mobileButton?.closest('.css-ijq4xa');
+        if (mobileButton && mobileHolder && !mobileHolder.querySelector('.pilot-mobile-menu')) {
+          const panel = document.createElement('div');
+          panel.className = 'pilot-mobile-menu';
+          panel.hidden = true;
+
+          Object.entries(menus).forEach(([name, items]) => {
+            const heading = document.createElement('p');
+            heading.className = 'pilot-mobile-heading';
+            heading.textContent = name[0].toUpperCase() + name.slice(1);
+            panel.appendChild(heading);
+            items.forEach(([label, href]) => {
+              const link = document.createElement('a');
+              link.href = href;
+              link.textContent = label;
+              panel.appendChild(link);
+            });
+          });
+
+          const ai = document.createElement('a');
+          ai.href = '/ai';
+          ai.textContent = 'AI';
+          panel.appendChild(ai);
+
+          const demo = document.createElement('a');
+          demo.href = '/contact';
+          demo.textContent = 'Schedule a Demo';
+          demo.className = 'pilot-mobile-cta';
+          panel.appendChild(demo);
+
+          mobileHolder.appendChild(panel);
+          mobileButton.setAttribute('aria-expanded', 'false');
+          mobileButton.addEventListener('click', () => {
+            const open = panel.hidden;
+            panel.hidden = !open;
+            mobileButton.setAttribute('aria-expanded', String(open));
+          });
+
+          document.addEventListener('click', (event) => {
+            if (!mobileHolder.contains(event.target)) {
+              panel.hidden = true;
+              mobileButton.setAttribute('aria-expanded', 'false');
+            }
+          });
+        }
+
+        const slider = document.querySelector('.slick-slider');
+        if (slider) {
+          const slides = [...slider.querySelectorAll('.slick-slide:not(.slick-cloned)')]
+            .filter((slide) => ['0', '1'].includes(slide.getAttribute('data-index')));
+          const track = slider.querySelector('.slick-track');
+          const list = slider.querySelector('.slick-list');
+          let active = 0;
+
+          if (track) {
+            track.style.width = '100%';
+            track.style.transform = 'none';
+          }
+          if (list) list.style.overflow = 'hidden';
+
+          const render = () => {
+            slides.forEach((slide, index) => {
+              slide.style.display = index === active ? 'block' : 'none';
+              slide.style.width = '100%';
+              slide.setAttribute('aria-hidden', String(index !== active));
+            });
+            slider.querySelectorAll('.css-1w1g3zq button').forEach((button, index) => {
+              button.setAttribute('aria-label', `Show AI feature ${(index % 2) + 1}`);
+              button.setAttribute('aria-pressed', String(index % 2 === active));
+            });
+          };
+
+          slider.querySelectorAll('.css-1w1g3zq button').forEach((button, index) => {
+            button.addEventListener('click', () => {
+              active = index % 2;
+              render();
+            });
+          });
+          render();
+        }
+      })();
+    </script>
   </body>
 </html>
 
 <style is:global>
   html { scroll-behavior: smooth; }
   body { margin: 0; }
+
+  header.css-ibyuam {
+    transition: background-color 220ms ease, box-shadow 220ms ease, backdrop-filter 220ms ease;
+  }
+
+  header.css-ibyuam.pilot-nav-scrolled {
+    background: rgba(255, 255, 255, 0.96) !important;
+    box-shadow: 0 8px 24px rgba(30, 32, 34, 0.10) !important;
+    backdrop-filter: blur(12px);
+  }
+
+  .pilot-nav-holder {
+    position: relative;
+  }
+
+  .pilot-nav-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    z-index: 1500;
+    min-width: 230px;
+    margin: 0;
+    padding: 8px 0;
+    list-style: none;
+    border-top: 3px solid #69306d;
+    border-radius: 0 0 8px 8px;
+    background: #fff;
+    box-shadow: 0 16px 36px rgba(30, 32, 34, 0.14);
+  }
+
+  .pilot-nav-holder:hover > .pilot-nav-menu,
+  .pilot-nav-holder:focus-within > .pilot-nav-menu {
+    display: block;
+  }
+
+  .pilot-nav-menu a {
+    display: block;
+    padding: 9px 18px;
+    color: #1e2022;
+    font: 400 0.9375rem/1.45 Inter, sans-serif;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .pilot-nav-menu a:hover,
+  .pilot-nav-menu a:focus-visible {
+    color: #69306d;
+    background: rgba(105, 48, 109, 0.07);
+    outline: none;
+  }
+
+  .css-ijq4xa {
+    position: relative;
+  }
+
+  .pilot-mobile-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 1600;
+    width: min(330px, calc(100vw - 32px));
+    max-height: calc(100vh - 100px);
+    overflow: auto;
+    padding: 16px;
+    border-top: 3px solid #69306d;
+    border-radius: 0 0 10px 10px;
+    background: #fff;
+    box-shadow: 0 16px 36px rgba(30, 32, 34, 0.16);
+  }
+
+  .pilot-mobile-menu[hidden] {
+    display: none;
+  }
+
+  .pilot-mobile-menu a,
+  .pilot-mobile-heading {
+    display: block;
+    margin: 0;
+    padding: 9px 8px;
+    color: #1e2022;
+    font: 400 0.9375rem/1.4 Inter, sans-serif;
+    text-decoration: none;
+  }
+
+  .pilot-mobile-heading {
+    margin-top: 8px;
+    color: #69306d;
+    font-weight: 600;
+  }
+
+  .pilot-mobile-cta {
+    margin-top: 12px;
+    border-radius: 6px;
+    color: #fff !important;
+    background: #69306d;
+    text-align: center;
+  }
+
+  .slick-slider .slick-slide {
+    transition: opacity 180ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    header.css-ibyuam,
+    .slick-slider .slick-slide {
+      transition: none;
+    }
+  }
 </style>

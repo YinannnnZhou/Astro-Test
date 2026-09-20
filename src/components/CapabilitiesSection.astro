@@ -14,7 +14,7 @@ const { features } = Astro.props;
   <div class="capabilities-container">
     {features.map((feature) => (
       <article class:list={['capability-row', { reverse: feature.reverse }]}>
-        <div class="capability-copy reveal-copy">
+        <div class="capability-copy" data-aos="fade-right">
           <h2>{feature.title}</h2>
           <p>{feature.description}</p>
         </div>
@@ -26,31 +26,13 @@ const { features } = Astro.props;
   </div>
 </section>
 
-<script>
-  const items = document.querySelectorAll<HTMLElement>('.capabilities-native .reveal-copy');
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
-    items.forEach((item) => observer.observe(item));
-  } else {
-    items.forEach((item) => item.classList.add('is-visible'));
-  }
-</script>
-
 <style>
   .capabilities-native { background: #fff; color: #1e2022; }
   .capabilities-container { width: min(1204px, calc(100% - 48px)); margin: 0 auto; padding: 1px 0 80px; }
   .capability-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: 32px; margin-top: 80px; }
   .capability-row.reverse .capability-copy { order: 2; }
   .capability-row.reverse .capability-media { order: 1; }
-  .capability-copy { padding: 0 16px; opacity: 0; transform: translate3d(-40px,0,0); transition: opacity 600ms ease, transform 600ms ease; }
-  .capability-copy.is-visible { opacity: 1; transform: translate3d(0,0,0); }
+  .capability-copy { padding: 0 16px; }
   .capability-copy h2 { margin: 0 0 16px; color: #1e2022; font-family: Inter, sans-serif; font-size: clamp(28px, 2.4vw, 36px); font-weight: 700; line-height: 1.25; }
   .capability-copy p { margin: 0; color: #1e2022; font-family: Inter, sans-serif; font-size: 16px; line-height: 1.7; }
   .capability-media { display: flex; justify-content: center; padding: 0 16px; }
@@ -60,7 +42,7 @@ const { features } = Astro.props;
     .capability-row, .capability-row.reverse { grid-template-columns: 1fr; gap: 28px; margin-top: 80px; }
     .capability-row .capability-copy, .capability-row.reverse .capability-copy { order: 2; }
     .capability-row .capability-media, .capability-row.reverse .capability-media { order: 1; }
-    .capability-copy { padding: 0; transform: translate3d(0,36px,0); }
+    .capability-copy { padding: 0; }
     .capability-media { padding: 0; }
   }
   @media (prefers-reduced-motion: reduce) {

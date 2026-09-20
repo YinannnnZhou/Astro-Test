@@ -39,6 +39,119 @@ const faqSchema = {
     <link rel="stylesheet" href="https://www.atalent.com/_next/static/css/d829c41e8156d33a.css" />
     <Fragment set:html={`<style>${originalStyles}</style>`} />
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+    <style is:global>
+      html { scroll-behavior: smooth; }
+      body { margin: 0; }
+    
+      header.css-ibyuam {
+        transition: background-color 220ms ease, box-shadow 220ms ease, backdrop-filter 220ms ease;
+      }
+    
+      header.css-ibyuam.pilot-nav-scrolled {
+        background: rgba(255, 255, 255, 0.96) !important;
+        box-shadow: 0 8px 24px rgba(30, 32, 34, 0.10) !important;
+        backdrop-filter: blur(12px);
+      }
+    
+      .pilot-nav-holder {
+        position: relative;
+      }
+    
+      .pilot-nav-menu {
+        display: none;
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 0;
+        z-index: 1500;
+        min-width: 230px;
+        margin: 0;
+        padding: 8px 0;
+        list-style: none;
+        border-top: 3px solid #69306d;
+        border-radius: 0 0 8px 8px;
+        background: #fff;
+        box-shadow: 0 16px 36px rgba(30, 32, 34, 0.14);
+      }
+    
+      .pilot-nav-holder:hover > .pilot-nav-menu,
+      .pilot-nav-holder:focus-within > .pilot-nav-menu {
+        display: block;
+      }
+    
+      .pilot-nav-menu a {
+        display: block;
+        padding: 9px 18px;
+        color: #1e2022;
+        font: 400 0.9375rem/1.45 Inter, sans-serif;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+    
+      .pilot-nav-menu a:hover,
+      .pilot-nav-menu a:focus-visible {
+        color: #69306d;
+        background: rgba(105, 48, 109, 0.07);
+        outline: none;
+      }
+    
+      .css-ijq4xa {
+        position: relative;
+      }
+    
+      .pilot-mobile-menu {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        z-index: 1600;
+        width: min(330px, calc(100vw - 32px));
+        max-height: calc(100vh - 100px);
+        overflow: auto;
+        padding: 16px;
+        border-top: 3px solid #69306d;
+        border-radius: 0 0 10px 10px;
+        background: #fff;
+        box-shadow: 0 16px 36px rgba(30, 32, 34, 0.16);
+      }
+    
+      .pilot-mobile-menu[hidden] {
+        display: none;
+      }
+    
+      .pilot-mobile-menu a,
+      .pilot-mobile-heading {
+        display: block;
+        margin: 0;
+        padding: 9px 8px;
+        color: #1e2022;
+        font: 400 0.9375rem/1.4 Inter, sans-serif;
+        text-decoration: none;
+      }
+    
+      .pilot-mobile-heading {
+        margin-top: 8px;
+        color: #69306d;
+        font-weight: 600;
+      }
+    
+      .pilot-mobile-cta {
+        margin-top: 12px;
+        border-radius: 6px;
+        color: #fff !important;
+        background: #69306d;
+        text-align: center;
+      }
+    
+      .slick-slider .slick-slide {
+        transition: opacity 180ms ease;
+      }
+    
+      @media (prefers-reduced-motion: reduce) {
+        header.css-ibyuam,
+        .slick-slider .slick-slide {
+          transition: none;
+        }
+      }
+    </style>
   </head>
   <body>
     <Fragment set:html={beforeFaq} />
@@ -194,117 +307,3 @@ const faqSchema = {
     </script>
   </body>
 </html>
-
-<style is:global>
-  html { scroll-behavior: smooth; }
-  body { margin: 0; }
-
-  header.css-ibyuam {
-    transition: background-color 220ms ease, box-shadow 220ms ease, backdrop-filter 220ms ease;
-  }
-
-  header.css-ibyuam.pilot-nav-scrolled {
-    background: rgba(255, 255, 255, 0.96) !important;
-    box-shadow: 0 8px 24px rgba(30, 32, 34, 0.10) !important;
-    backdrop-filter: blur(12px);
-  }
-
-  .pilot-nav-holder {
-    position: relative;
-  }
-
-  .pilot-nav-menu {
-    display: none;
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
-    z-index: 1500;
-    min-width: 230px;
-    margin: 0;
-    padding: 8px 0;
-    list-style: none;
-    border-top: 3px solid #69306d;
-    border-radius: 0 0 8px 8px;
-    background: #fff;
-    box-shadow: 0 16px 36px rgba(30, 32, 34, 0.14);
-  }
-
-  .pilot-nav-holder:hover > .pilot-nav-menu,
-  .pilot-nav-holder:focus-within > .pilot-nav-menu {
-    display: block;
-  }
-
-  .pilot-nav-menu a {
-    display: block;
-    padding: 9px 18px;
-    color: #1e2022;
-    font: 400 0.9375rem/1.45 Inter, sans-serif;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  .pilot-nav-menu a:hover,
-  .pilot-nav-menu a:focus-visible {
-    color: #69306d;
-    background: rgba(105, 48, 109, 0.07);
-    outline: none;
-  }
-
-  .css-ijq4xa {
-    position: relative;
-  }
-
-  .pilot-mobile-menu {
-    position: absolute;
-    top: calc(100% + 10px);
-    right: 0;
-    z-index: 1600;
-    width: min(330px, calc(100vw - 32px));
-    max-height: calc(100vh - 100px);
-    overflow: auto;
-    padding: 16px;
-    border-top: 3px solid #69306d;
-    border-radius: 0 0 10px 10px;
-    background: #fff;
-    box-shadow: 0 16px 36px rgba(30, 32, 34, 0.16);
-  }
-
-  .pilot-mobile-menu[hidden] {
-    display: none;
-  }
-
-  .pilot-mobile-menu a,
-  .pilot-mobile-heading {
-    display: block;
-    margin: 0;
-    padding: 9px 8px;
-    color: #1e2022;
-    font: 400 0.9375rem/1.4 Inter, sans-serif;
-    text-decoration: none;
-  }
-
-  .pilot-mobile-heading {
-    margin-top: 8px;
-    color: #69306d;
-    font-weight: 600;
-  }
-
-  .pilot-mobile-cta {
-    margin-top: 12px;
-    border-radius: 6px;
-    color: #fff !important;
-    background: #69306d;
-    text-align: center;
-  }
-
-  .slick-slider .slick-slide {
-    transition: opacity 180ms ease;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    header.css-ibyuam,
-    .slick-slider .slick-slide {
-      transition: none;
-    }
-  }
-</style>

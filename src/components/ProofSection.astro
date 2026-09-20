@@ -5,7 +5,7 @@ const { heading, description, ctaLabel, ctaHref, stats } = Astro.props;
 ---
 
 <section class="proof-native" aria-labelledby="proof-heading">
-  <div class="proof-intro" data-motion="fade-up">
+  <div class="proof-intro" data-aos="fade-up" data-aos-delay="50" data-aos-duration="500">
     <h2 id="proof-heading">{heading}</h2>
     <p>{description}</p>
     <a class="proof-cta" href={ctaHref}>{ctaLabel}</a>
@@ -13,7 +13,7 @@ const { heading, description, ctaLabel, ctaHref, stats } = Astro.props;
   <div class="proof-band">
     <div class="proof-grid">
       {stats.map((stat, index) => (
-        <article class="proof-card" data-motion="fade-up" data-motion-delay={index * 100}>
+        <article class="proof-card" data-aos="fade-up" data-aos-delay={index * 100} data-aos-duration="600">
           <strong>{stat.value}</strong><p>{stat.description}</p>
         </article>
       ))}

@@ -142,6 +142,16 @@ const { label, heading, introduction, faqs } = Astro.props;
     font-size: 16px;
     line-height: 1.75;
   }
+  :global(html[data-theme='dark']) .faq-pilot { background:#1a2138; color:#eeeef0; }
+  :global(html[data-theme='dark']) .faq-heading h2,
+  :global(html[data-theme='dark']) .faq-item summary { color:#eeeef0; }
+  :global(html[data-theme='dark']) .faq-heading > p:last-child,
+  :global(html[data-theme='dark']) .faq-answer p { color:#aeb0b4; }
+  :global(html[data-theme='dark']) .faq-label { color:#1976d2; }
+  :global(html[data-theme='dark']) .faq-list,
+  :global(html[data-theme='dark']) .faq-item { border-color:rgba(255,255,255,.12); }
+  :global(html[data-theme='dark']) .faq-toggle::before,
+  :global(html[data-theme='dark']) .faq-toggle::after { background:#1976d2; }
 
   @media (max-width: 600px) {
     .faq-pilot { padding: 72px 0 80px; }

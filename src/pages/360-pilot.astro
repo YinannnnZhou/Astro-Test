@@ -81,11 +81,12 @@ const faqSchema = {
         display: none;
         position: absolute;
         top: 100%;
-        left: 0;
+        left: 50%;
         z-index: 1500;
         min-width: 230px;
         margin: 4px 0 0;
         padding: 8px 0;
+        transform: translateX(-50%);
         list-style: none;
         border-top: 3px solid #69306d;
         border-radius: 0 0 8px 8px;
@@ -118,7 +119,9 @@ const faqSchema = {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 32px;
         width: min(600px, calc(100vw - 32px));
-        padding: 24px 16px;
+        max-width: 600px;
+        padding: 16px;
+        box-sizing: border-box;
       }
 
       .pilot-nav-group {
@@ -128,16 +131,18 @@ const faqSchema = {
 
       .pilot-nav-group-title {
         display: block;
-        padding: 8px 18px 10px;
+        padding: 8px 16px;
         color: #6b7c90;
-        font: 700 1rem/1.4 Inter, sans-serif;
+        font: 700 0.875rem/1.43 Inter, sans-serif;
       }
     
       .pilot-nav-menu a {
         display: block;
-        padding: 9px 18px;
+        margin: 2px 0;
+        padding: 8px 16px;
+        border-radius: 8px;
         color: #1e2022;
-        font: 400 0.9375rem/1.45 Inter, sans-serif;
+        font: 400 0.875rem/1.43 Inter, sans-serif;
         text-decoration: none;
         white-space: nowrap;
       }
@@ -283,7 +288,10 @@ const faqSchema = {
             const link = document.createElement('a');
             link.href = href;
             link.textContent = label;
-            if (location.pathname.toLowerCase() === href.toLowerCase()) {
+            const currentPath = location.pathname.toLowerCase().replace(/\/$/, '');
+            const targetPath = href.toLowerCase().replace(/\/$/, '');
+            const isPilot360 = currentPath === '/360-pilot' && targetPath === '/products/360-feedback';
+            if (currentPath === targetPath || isPilot360) {
               link.setAttribute('aria-current', 'page');
             }
             item.appendChild(link);

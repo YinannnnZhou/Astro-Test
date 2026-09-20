@@ -170,10 +170,67 @@ const faqSchema = {
         color: #eeeef0;
       }
 
-      html[data-theme='dark'] header.css-ibyuam,
+      html[data-theme='dark'] .css-1sgw15m,
+      html[data-theme='dark'] header.css-ibyuam {
+        background: transparent !important;
+      }
+
       html[data-theme='dark'] header.css-ibyuam.pilot-nav-scrolled {
         background: rgba(34, 43, 69, 0.96) !important;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22) !important;
+        backdrop-filter: blur(12px);
+      }
+
+      html[data-theme='dark'] header.css-ibyuam a,
+      html[data-theme='dark'] header.css-ibyuam p,
+      html[data-theme='dark'] header.css-ibyuam svg,
+      html[data-theme='dark'] .css-1sgw15m svg {
+        color: #eeeef0 !important;
+      }
+
+      .css-u5b23e {
+        overflow: hidden;
+        transition: color 220ms ease, border-color 220ms ease, background-color 220ms ease !important;
+      }
+
+      .css-u5b23e svg {
+        transition: color 220ms ease, transform 320ms ease;
+        transform-origin: center;
+      }
+
+      html[data-theme='dark'] .css-u5b23e {
+        color: #ffe102 !important;
+        border-color: rgba(255, 255, 255, 0.20) !important;
+      }
+
+      html[data-theme='dark'] .css-u5b23e:hover {
+        background: rgba(255, 255, 255, 0.08) !important;
+        border-color: #ffe102 !important;
+      }
+
+      html[data-theme='light'] .css-u5b23e {
+        color: #69306d !important;
+      }
+
+      html.theme-icon-swap .css-u5b23e svg {
+        animation: theme-icon-swap 320ms ease;
+      }
+
+      @keyframes theme-icon-swap {
+        0% { transform: rotate(0deg) scale(1); opacity: 1; }
+        50% { transform: rotate(90deg) scale(0.55); opacity: 0.25; }
+        100% { transform: rotate(180deg) scale(1); opacity: 1; }
+      }
+
+      body,
+      header.css-ibyuam,
+      .css-19101ww,
+      .css-1fgqj6e,
+      .MuiPaper-root,
+      .capabilities-native,
+      .smart360,
+      .faq-pilot {
+        transition: background-color 260ms ease, color 260ms ease, border-color 260ms ease;
       }
 
       html[data-theme='dark'] .MuiTypography-root,
@@ -416,13 +473,24 @@ const faqSchema = {
           localStorage.setItem('themeMode', mode);
           themeButton?.setAttribute('aria-pressed', String(mode === 'dark'));
           themeButton?.setAttribute('title', mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+          const themeIcon = themeButton?.querySelector('svg');
+          if (themeIcon) {
+            themeIcon.setAttribute('viewBox', '0 0 24 24');
+            themeIcon.innerHTML = mode === 'dark'
+              ? '<path fill="currentColor" d="M12 4.5a1 1 0 0 1-1-1V2a1 1 0 1 1 2 0v1.5a1 1 0 0 1-1 1Zm0 15a1 1 0 0 1 1 1V22a1 1 0 1 1-2 0v-1.5a1 1 0 0 1 1-1Zm7.5-7.5a1 1 0 0 1 1-1H22a1 1 0 1 1 0 2h-1.5a1 1 0 0 1-1-1ZM4.5 12a1 1 0 0 1-1 1H2a1 1 0 1 1 0-2h1.5a1 1 0 0 1 1 1Zm12.803-5.303a1 1 0 0 1 0-1.414l1.06-1.06a1 1 0 1 1 1.415 1.414l-1.061 1.06a1 1 0 0 1-1.414 0ZM6.697 17.303a1 1 0 0 1 0 1.414l-1.06 1.06a1 1 0 1 1-1.415-1.414l1.061-1.06a1 1 0 0 1 1.414 0Zm10.606 0a1 1 0 0 1 1.414 0l1.06 1.06a1 1 0 0 1-1.414 1.415l-1.06-1.061a1 1 0 0 1 0-1.414ZM6.697 6.697a1 1 0 0 1-1.414 0l-1.06-1.06a1 1 0 0 1 1.414-1.415l1.06 1.061a1 1 0 0 1 0 1.414ZM12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Z"/>'
+              : '<path fill="currentColor" d="M20.354 15.354A9 9 0 0 1 8.646 3.646 9.003 9.003 0 1 0 20.354 15.354Z"/>';
+          }
           if (logo) logo.src = mode === 'dark'
             ? 'https://assets.atalent.com/Uploads/a_Talent_logo_white_0b77096005.svg'
             : 'https://assets.atalent.com/Uploads/a_Talent_logo_Dark_e97b353bb7.svg';
         };
         applyTheme(document.documentElement.dataset.theme || 'light');
         themeButton?.addEventListener('click', () => {
+          document.documentElement.classList.remove('theme-icon-swap');
+          void document.documentElement.offsetWidth;
+          document.documentElement.classList.add('theme-icon-swap');
           applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+          window.setTimeout(() => document.documentElement.classList.remove('theme-icon-swap'), 340);
         });
 
         const header = document.querySelector('header.css-ibyuam');

@@ -77,6 +77,24 @@ export default config({
         }), { label: 'Slides', itemLabel: (props) => props.fields.title.value || 'New slide' }),
       },
     }),
+    testimonials360: singleton({
+      label: '360 Feedback Testimonials',
+      path: 'src/content/360-testimonials',
+      format: { data: 'json' },
+      schema: {
+        aiCtaLabel: fields.text({ label: 'AI CTA label', validation: { isRequired: true } }),
+        aiCtaHref: fields.text({ label: 'AI CTA link', validation: { isRequired: true } }),
+        heading: fields.text({ label: 'Heading', validation: { isRequired: true } }),
+        description: fields.text({ label: 'Description', multiline: true, validation: { isRequired: true } }),
+        testimonials: fields.array(fields.object({
+          quote: fields.text({ label: 'Quote', multiline: true, validation: { isRequired: true } }),
+          name: fields.text({ label: 'Name', validation: { isRequired: true } }),
+          role: fields.text({ label: 'Role', validation: { isRequired: true } }),
+          avatarUrl: fields.text({ label: 'Avatar URL', validation: { isRequired: true } }),
+          avatarAlt: fields.text({ label: 'Avatar alt text', validation: { isRequired: true } }),
+        }), { label: 'Testimonials', itemLabel: (props) => props.fields.name.value || 'New testimonial' }),
+      },
+    }),
     faqPage: singleton({
       label: '360 Feedback FAQ',
       path: 'src/content/faq-page',

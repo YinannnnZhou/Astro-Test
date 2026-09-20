@@ -14,7 +14,7 @@ interface Props {
 const { label, heading, introduction, faqs } = Astro.props;
 ---
 
-<section class="faq-pilot" aria-labelledby="faq-title">
+<section class="faq-pilot" aria-labelledby="faq-title" data-analytics-section="faq">
   <div class="faq-container">
     <div class="faq-heading">
       <p class="faq-label">{label}</p>
@@ -24,7 +24,7 @@ const { label, heading, introduction, faqs } = Astro.props;
 
     <div class="faq-list">
       {faqs.map((faq, index) => (
-        <details class="faq-item" open={index === 0}>
+        <details class="faq-item" open={index === 0} data-analytics-component="faq">
           <summary>
             <span>{faq.question}</span>
             <span class="faq-toggle" aria-hidden="true"></span>

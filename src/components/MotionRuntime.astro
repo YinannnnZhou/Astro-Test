@@ -7,6 +7,7 @@
       ...document.querySelectorAll('.css-touz9j'),
     ]);
     candidates.forEach((element) => {
+      if (!(element instanceof HTMLElement)) return;
       if (!element.hasAttribute('data-aos')) {
         element.setAttribute('data-aos', element.classList.contains('css-fxw5vl') ? 'fade-right' : 'fade-up');
       }

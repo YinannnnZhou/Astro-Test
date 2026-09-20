@@ -24,6 +24,8 @@ export default config({
         eyebrow: fields.text({ label: 'Hero eyebrow' }),
         title: fields.text({ label: 'Hero title', validation: { isRequired: true } }),
         description: fields.text({ label: 'Hero description', multiline: true }),
+        heroImageUrl: fields.text({ label: 'Hero image URL', validation: { isRequired: true } }),
+        heroImageAlt: fields.text({ label: 'Hero image alt text', validation: { isRequired: true } }),
         primaryCta: fields.text({ label: 'Primary CTA' }),
         secondaryCta: fields.text({ label: 'Secondary CTA' }),
         aiLabel: fields.text({ label: 'AI section label' }),

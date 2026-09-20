@@ -5,6 +5,7 @@ import Hero360 from '../components/Hero360.astro';
 import ProofSection from '../components/ProofSection.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import Smart360 from '../components/Smart360.astro';
+import TestimonialsSection from '../components/TestimonialsSection.astro';
 import MotionRuntime from '../components/MotionRuntime.astro';
 import { createReader } from '@keystatic/core/reader';
 import keystaticConfig from '../../keystatic.config';
@@ -12,14 +13,15 @@ import originalPage from '../snapshots/atalent-360.html?raw';
 import originalStyles from '../styles/atalent-original.css?raw';
 
 const reader = createReader(process.cwd(), keystaticConfig);
-const [faqPage, capabilitiesPage, smart360, product360] = await Promise.all([
+const [faqPage, capabilitiesPage, smart360, testimonials360, product360] = await Promise.all([
   reader.singletons.faqPage.read(),
   reader.singletons.capabilities360.read(),
   reader.singletons.smart360.read(),
+  reader.singletons.testimonials360.read(),
   reader.singletons.product360.read(),
 ]);
 
-if (!faqPage || !capabilitiesPage || !smart360 || !product360) {
+if (!faqPage || !capabilitiesPage || !smart360 || !testimonials360 || !product360) {
   throw new Error('360 page content is missing.');
 }
 
@@ -44,9 +46,9 @@ if (headerStartIndex < 0 || mainStartIndex < 0 || heroStartIndex < 0 || powerSta
 const beforeHeader = originalPage.slice(0, headerStartIndex);
 const mainOpen = originalPage.slice(mainStartIndex, heroStartIndex);
 const afterSmart = originalPage.slice(smartEndIndex);
-const [betweenSmartAndFaq, afterFaq] = afterSmart.split('<!--FAQ_SLOT-->');
+const [, afterFaq] = afterSmart.split('<!--FAQ_SLOT-->');
 
-if (!betweenSmartAndFaq || !afterFaq) {
+if (!afterFaq) {
   throw new Error('FAQ insertion point is missing from the aTalent page snapshot.');
 }
 
@@ -578,7 +580,7 @@ const faqSchema = {
     <ProofSection heading={product360.proofHeading} description={product360.proofDescription} ctaLabel={product360.proofCtaLabel} ctaHref="/contact" stats={product360.proofStats} />
     <CapabilitiesSection features={capabilitiesPage.features} />
     <Smart360 title={smart360.title} intro={smart360.intro} featureList={smart360.featureList} slides={smart360.slides} />
-    <Fragment set:html={betweenSmartAndFaq} />
+    <TestimonialsSection heading={testimonials360.heading} description={testimonials360.description} aiCtaLabel={testimonials360.aiCtaLabel} aiCtaHref={testimonials360.aiCtaHref} testimonials={testimonials360.testimonials} />
     <FAQSection
       label={faqPage.label}
       heading={faqPage.heading}

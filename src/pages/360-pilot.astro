@@ -189,37 +189,40 @@ const faqSchema = {
       }
 
       .css-u5b23e {
-        overflow: hidden;
-        transition: color 220ms ease, border-color 220ms ease, background-color 220ms ease !important;
+        min-width: auto !important;
+        padding: 4px !important;
+        border-radius: 8px !important;
+        transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+                    border-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+                    color 250ms cubic-bezier(0.4, 0, 0.2, 1) !important;
       }
 
       .css-u5b23e svg {
-        transition: color 220ms ease, transform 320ms ease;
-        transform-origin: center;
+        width: 20px;
+        height: 20px;
       }
 
-      html[data-theme='dark'] .css-u5b23e {
+      html[data-theme='light'] .css-u5b23e {
+        color: #69306d !important;
+        border-color: rgba(0, 0, 0, 0.20) !important;
+      }
+
+      html[data-theme='light'] .css-u5b23e:hover {
+        color: #69306d !important;
+        border-color: #69306d !important;
+        background: rgba(105, 48, 109, 0.04) !important;
+      }
+
+      html[data-theme='dark'] .css-u5b23e,
+      html[data-theme='dark'] .css-1sgw15m .css-u5b23e svg {
         color: #ffe102 !important;
         border-color: rgba(255, 255, 255, 0.20) !important;
       }
 
       html[data-theme='dark'] .css-u5b23e:hover {
-        background: rgba(255, 255, 255, 0.08) !important;
+        color: #ffe102 !important;
         border-color: #ffe102 !important;
-      }
-
-      html[data-theme='light'] .css-u5b23e {
-        color: #69306d !important;
-      }
-
-      html.theme-icon-swap .css-u5b23e svg {
-        animation: theme-icon-swap 320ms ease;
-      }
-
-      @keyframes theme-icon-swap {
-        0% { transform: rotate(0deg) scale(1); opacity: 1; }
-        50% { transform: rotate(90deg) scale(0.55); opacity: 0.25; }
-        100% { transform: rotate(180deg) scale(1); opacity: 1; }
+        background: rgba(255, 225, 2, 0.08) !important;
       }
 
       body,
@@ -244,7 +247,6 @@ const faqSchema = {
       }
 
       html[data-theme='dark'] .css-19101ww,
-      html[data-theme='dark'] .css-1fgqj6e,
       html[data-theme='dark'] .capabilities-native,
       html[data-theme='dark'] .faq-pilot {
         background: #1a2138 !important;
@@ -475,10 +477,14 @@ const faqSchema = {
           themeButton?.setAttribute('title', mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
           const themeIcon = themeButton?.querySelector('svg');
           if (themeIcon) {
+            themeIcon.setAttribute('width', '20');
+            themeIcon.setAttribute('height', '20');
             themeIcon.setAttribute('viewBox', '0 0 24 24');
+            themeIcon.setAttribute('fill', 'none');
+            themeIcon.setAttribute('stroke', 'currentColor');
             themeIcon.innerHTML = mode === 'dark'
-              ? '<path fill="currentColor" d="M12 4.5a1 1 0 0 1-1-1V2a1 1 0 1 1 2 0v1.5a1 1 0 0 1-1 1Zm0 15a1 1 0 0 1 1 1V22a1 1 0 1 1-2 0v-1.5a1 1 0 0 1 1-1Zm7.5-7.5a1 1 0 0 1 1-1H22a1 1 0 1 1 0 2h-1.5a1 1 0 0 1-1-1ZM4.5 12a1 1 0 0 1-1 1H2a1 1 0 1 1 0-2h1.5a1 1 0 0 1 1 1Zm12.803-5.303a1 1 0 0 1 0-1.414l1.06-1.06a1 1 0 1 1 1.415 1.414l-1.061 1.06a1 1 0 0 1-1.414 0ZM6.697 17.303a1 1 0 0 1 0 1.414l-1.06 1.06a1 1 0 1 1-1.415-1.414l1.061-1.06a1 1 0 0 1 1.414 0Zm10.606 0a1 1 0 0 1 1.414 0l1.06 1.06a1 1 0 0 1-1.414 1.415l-1.06-1.061a1 1 0 0 1 0-1.414ZM6.697 6.697a1 1 0 0 1-1.414 0l-1.06-1.06a1 1 0 0 1 1.414-1.415l1.06 1.061a1 1 0 0 1 0 1.414ZM12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Z"/>'
-              : '<path fill="currentColor" d="M20.354 15.354A9 9 0 0 1 8.646 3.646 9.003 9.003 0 1 0 20.354 15.354Z"/>';
+              ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728 0-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/>'
+              : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 0 1 8.646 3.646 9.003 9.003 0 0 0 12 21a9.003 9.003 0 0 0 8.354-5.646Z"/>';
           }
           if (logo) logo.src = mode === 'dark'
             ? 'https://assets.atalent.com/Uploads/a_Talent_logo_white_0b77096005.svg'
@@ -486,11 +492,7 @@ const faqSchema = {
         };
         applyTheme(document.documentElement.dataset.theme || 'light');
         themeButton?.addEventListener('click', () => {
-          document.documentElement.classList.remove('theme-icon-swap');
-          void document.documentElement.offsetWidth;
-          document.documentElement.classList.add('theme-icon-swap');
           applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
-          window.setTimeout(() => document.documentElement.classList.remove('theme-icon-swap'), 340);
         });
 
         const header = document.querySelector('header.css-ibyuam');

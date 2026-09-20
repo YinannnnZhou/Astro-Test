@@ -85,7 +85,7 @@ const faqSchema = {
       }
     
       .pilot-nav-menu {
-        display: none;
+        display: block;
         position: absolute;
         top: 100%;
         left: 50%;
@@ -93,7 +93,12 @@ const faqSchema = {
         min-width: 230px;
         margin: 4px 0 0;
         padding: 8px 0;
-        transform: translateX(-50%);
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+        transform: translate(-50%, -8px) scale(0.98);
+        transform-origin: top center;
+        transition: opacity 180ms ease, transform 180ms ease, visibility 180ms;
         list-style: none;
         border-top: 3px solid #69306d;
         border-radius: 0 0 8px 8px;
@@ -113,16 +118,14 @@ const faqSchema = {
       .pilot-nav-holder:hover > .pilot-nav-menu,
       .pilot-nav-holder:focus-within > .pilot-nav-menu,
       .pilot-nav-holder.menu-open > .pilot-nav-menu {
-        display: block;
-      }
-
-      .pilot-nav-holder:hover > .pilot-nav-menu-products,
-      .pilot-nav-holder:focus-within > .pilot-nav-menu-products,
-      .pilot-nav-holder.menu-open > .pilot-nav-menu-products {
-        display: grid;
+        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, 0) scale(1);
       }
 
       .pilot-nav-menu-products {
+        display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 32px;
         width: min(600px, calc(100vw - 32px));
@@ -221,6 +224,39 @@ const faqSchema = {
       html[data-theme='dark'] .faq-list,
       html[data-theme='dark'] .faq-item {
         border-color: rgba(255, 255, 255, 0.12);
+      }
+
+      html[data-theme='dark'] .pilot-nav-menu {
+        border-top-color: #1976d2;
+      }
+
+      html[data-theme='dark'] .pilot-nav-menu a[aria-current='page'] {
+        color: #1976d2;
+        background: rgba(25, 118, 210, 0.10);
+      }
+
+      html[data-theme='dark'] .pilot-nav-menu a:hover,
+      html[data-theme='dark'] .pilot-nav-menu a:focus-visible {
+        color: #1976d2;
+        background: rgba(25, 118, 210, 0.20);
+      }
+
+      html[data-theme='dark'] .css-x4iqch,
+      html[data-theme='dark'] .css-o6p3jo,
+      html[data-theme='dark'] .pilot-mobile-cta {
+        background: #1976d2 !important;
+        color: #fff !important;
+      }
+
+      html[data-theme='dark'] .faq-label,
+      html[data-theme='dark'] .faq-toggle::before,
+      html[data-theme='dark'] .faq-toggle::after {
+        color: #1976d2;
+        background-color: #1976d2;
+      }
+
+      html[data-theme='dark'] .smart-dots button.active {
+        background: #1976d2;
       }
     
       .pilot-nav-menu a {

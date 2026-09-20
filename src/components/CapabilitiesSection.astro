@@ -10,7 +10,7 @@ interface Props { features: readonly Feature[]; }
 const { features } = Astro.props;
 ---
 
-<section class="capabilities-native" aria-label="360 Feedback capabilities">
+<section class="capabilities-native" aria-label="360 Feedback capabilities" data-analytics-section="capabilities">
   <div class="capabilities-container">
     {features.map((feature) => (
       <article class:list={['capability-row', { reverse: feature.reverse }]}>

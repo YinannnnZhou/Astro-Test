@@ -52,6 +52,22 @@ export default config({
         ),
       },
     }),
+    smart360: singleton({
+      label: 'Smart 360',
+      path: 'src/content/smart-360',
+      format: { data: 'json' },
+      schema: {
+        title: fields.text({ label: 'Title', validation: { isRequired: true } }),
+        intro: fields.text({ label: 'Introduction' }),
+        featureList: fields.text({ label: 'Feature list', multiline: true }),
+        slides: fields.array(fields.object({
+          imageUrl: fields.text({ label: 'Image URL', validation: { isRequired: true } }),
+          imageAlt: fields.text({ label: 'Image alt text', validation: { isRequired: true } }),
+          title: fields.text({ label: 'Slide title', validation: { isRequired: true } }),
+          description: fields.text({ label: 'Slide description', multiline: true }),
+        }), { label: 'Slides', itemLabel: (props) => props.fields.title.value || 'New slide' }),
+      },
+    }),
     faqPage: singleton({
       label: '360 Feedback FAQ',
       path: 'src/content/faq-page',

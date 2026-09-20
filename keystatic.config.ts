@@ -35,6 +35,23 @@ export default config({
         metaDescription: fields.text({ label: 'SEO description', multiline: true }),
       },
     }),
+    capabilities360: singleton({
+      label: '360 Feedback Capabilities',
+      path: 'src/content/360-capabilities',
+      format: { data: 'json' },
+      schema: {
+        features: fields.array(
+          fields.object({
+            title: fields.text({ label: 'Title', validation: { isRequired: true } }),
+            description: fields.text({ label: 'Description', multiline: true, validation: { isRequired: true } }),
+            imageUrl: fields.text({ label: 'Image URL', validation: { isRequired: true } }),
+            imageAlt: fields.text({ label: 'Image alt text', validation: { isRequired: true } }),
+            reverse: fields.checkbox({ label: 'Image on the left (desktop)' }),
+          }),
+          { label: 'Capability modules', itemLabel: (props) => props.fields.title.value || 'New capability' },
+        ),
+      },
+    }),
     faqPage: singleton({
       label: '360 Feedback FAQ',
       path: 'src/content/faq-page',

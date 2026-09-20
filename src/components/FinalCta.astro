@@ -3,11 +3,11 @@ interface Props { heading: string; description: string; ctaLabel: string; ctaHre
 const { heading, description, ctaLabel, ctaHref } = Astro.props;
 ---
 
-<section class="final-cta" aria-labelledby="final-cta-heading">
+<section class="final-cta" aria-labelledby="final-cta-heading" data-analytics-section="final-cta">
   <div class="final-cta-inner" data-aos="fade-up" data-aos-delay="50" data-aos-duration="500">
     <h2 id="final-cta-heading">{heading}</h2>
     <p>{description}</p>
-    <a href={ctaHref}>{ctaLabel}</a>
+    <a href={ctaHref} data-analytics-action="click" data-analytics-component="final-cta" data-analytics-label={ctaLabel}>{ctaLabel}</a>
   </div>
 </section>
 <div class="footer-divider" aria-hidden="true"></div>

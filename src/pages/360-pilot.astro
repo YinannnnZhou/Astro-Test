@@ -1,6 +1,7 @@
 ---
 import FAQSection from '../components/FAQSection.astro';
 import CapabilitiesSection from '../components/CapabilitiesSection.astro';
+import Smart360 from '../components/Smart360.astro';
 import MotionRuntime from '../components/MotionRuntime.astro';
 import { createReader } from '@keystatic/core/reader';
 import keystaticConfig from '../../keystatic.config';
@@ -8,29 +9,32 @@ import originalPage from '../snapshots/atalent-360.html?raw';
 import originalStyles from '../styles/atalent-original.css?raw';
 
 const reader = createReader(process.cwd(), keystaticConfig);
-const [faqPage, capabilitiesPage] = await Promise.all([
+const [faqPage, capabilitiesPage, smart360] = await Promise.all([
   reader.singletons.faqPage.read(),
   reader.singletons.capabilities360.read(),
+  reader.singletons.smart360.read(),
 ]);
 
-if (!faqPage || !capabilitiesPage) {
+if (!faqPage || !capabilitiesPage || !smart360) {
   throw new Error('360 page content is missing.');
 }
 
 const capabilityStart = '<div class="MuiBox-root css-0"><div class="MuiBox-root css-18033jt"><div class="MuiBox-root css-ib9iq6">';
 const capabilityEnd = '<div class="MuiBox-root css-0"><div class="MuiBox-root css-18033jt"><div class="MuiBox-root css-touz9j ">';
+const smartEnd = '<div class="MuiBox-root css-0"><div class="MuiBox-root css-18033jt"><div class="MuiBox-root css-0"><div class="MuiBox-root css-d32wgk">';
 const capabilityStartIndex = originalPage.indexOf(capabilityStart);
 const capabilityEndIndex = originalPage.indexOf(capabilityEnd, capabilityStartIndex);
+const smartEndIndex = originalPage.indexOf(smartEnd, capabilityEndIndex);
 
-if (capabilityStartIndex < 0 || capabilityEndIndex < 0) {
+if (capabilityStartIndex < 0 || capabilityEndIndex < 0 || smartEndIndex < 0) {
   throw new Error('Capability section boundaries are missing from the page snapshot.');
 }
 
 const beforeCapabilities = originalPage.slice(0, capabilityStartIndex);
-const afterCapabilities = originalPage.slice(capabilityEndIndex);
-const [betweenCapabilitiesAndFaq, afterFaq] = afterCapabilities.split('<!--FAQ_SLOT-->');
+const afterSmart = originalPage.slice(smartEndIndex);
+const [betweenSmartAndFaq, afterFaq] = afterSmart.split('<!--FAQ_SLOT-->');
 
-if (!betweenCapabilitiesAndFaq || !afterFaq) {
+if (!betweenSmartAndFaq || !afterFaq) {
   throw new Error('FAQ insertion point is missing from the aTalent page snapshot.');
 }
 
@@ -172,7 +176,8 @@ const faqSchema = {
   <body>
     <Fragment set:html={beforeCapabilities} />
     <CapabilitiesSection features={capabilitiesPage.features} />
-    <Fragment set:html={betweenCapabilitiesAndFaq} />
+    <Smart360 title={smart360.title} intro={smart360.intro} featureList={smart360.featureList} slides={smart360.slides} />
+    <Fragment set:html={betweenSmartAndFaq} />
     <FAQSection
       label={faqPage.label}
       heading={faqPage.heading}
